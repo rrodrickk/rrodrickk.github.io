@@ -28,29 +28,26 @@ body {top: 0; left: 0; width: 99%; height: 97%;
     position: absolute; display: table}
   p {display: table-cell; vertical-align: middle; text-align: center}
 #timezone * {text-decoration: none;}
-
-
 </style>
 
-<div id="txt"></div>
+<script type="text/javascript">
+    // declare time zone formatting
+    let options = {
+        timeZone: 'US/Mountain',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
+    },
+    formatter = new Intl.DateTimeFormat([], options);
 
-<script>
-function startTime() {
-  const today = new Date();
-  let h = today.getHours();
-  let m = today.getMinutes();
-  let s = today.getSeconds();
-  m = checkTime(m);
-  s = checkTime(s);
-  document.getElementById('txt').innerHTML =  h + ":" + m;
-  setTimeout(startTime, 1000);
-}
-
-function checkTime(i) {
-  if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
-  return i;
-}
+    // set time
+    setInterval(
+        () => {
+            document.querySelector("#time").innerText = formatter.format(new Date());
+        }
+    , 1000)
 </script>
+
 </head>
 
 
@@ -63,17 +60,18 @@ function checkTime(i) {
 <br>
 <span id=timezone>
 <i>
-<a href="https://24timezones.com/current_time/portugal_braga_clock.php">TIME IN BRAGA</a> - <span
-    id="time">0:00 PM</span>
+<a href="https://24timezones.com/current_time/portugal_braga_clock.php">TIME IN BRAGA</a> - <span id="time">0:00 PM</span>
+<iframe src="https://free.timeanddate.com/clock/i9zvj6xu/n120/szw110/szh30" frameborder="0" width="110" height="30"></iframe>
+
 </i>
 </span>
 <br><br>
 
-<a href="http://rrodrickk.github.io/portfolio/about.html">about</a> //
-<a href="http://rrodrickk.github.io/portfolio/faq.html">faq</a> //
-<a href="http://rrodrickk.github.io/portfolio/blog">blog</a> //
+<a href="http://rrodrickk.github.io/about.html">about</a> //
+<a href="http://rrodrickk.github.io/faq.html">faq</a> //
+<a href="http://rrodrickk.github.io/blog">blog</a> //
 <a href="https://drive.google.com/file/d/17CnAyDkTUckt3jNoQjzsUmVlzP1jdp6t/view?usp=sharing">resume (still on progress...)</a> //
-<a href="http://rrodrickk.github.io/portfolio/contact.html">contact</a>
+<a href="http://rrodrickk.github.io/contact.html">contact</a>
 
 <br>
 <br>
