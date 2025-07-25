@@ -6,6 +6,6 @@ Welcome to my personal site repository. This space is where I ship code, riffs, 
 
 ## 🔗 Live Site
 
-> 🚀 Deployed at: [https://rrodrickk.github.io/your-repo-name](https://rrodrickk.github.io/your-repo-name)
+> 🚀 Deployed at: [https://rrodrickk.github.io](https://rrodrickk.github.io)
 
 
