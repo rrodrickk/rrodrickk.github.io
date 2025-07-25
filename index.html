@@ -3,10 +3,11 @@
 <style>
 body {
     margin: 0;
-    min-height: 100vh;
-    background-image: url('https://i.imgur.com/DYHSa3W.png');
+    min-height: 100%;
+    background-image: url('https://i.imgur.com/Vsa9E0Y.png');
     background-repeat: no-repeat;
     background-attachment: fixed;
+    background-position: center center;
     background-size: cover;
 }
 </style>
@@ -29,24 +30,24 @@ body {top: 0; left: 0; width: 99%; height: 97%;
 
 </style>
 
-<script type="text/javascript">
-document.addEventListener("DOMContentLoaded", () => {
-    const options = {
-        timeZone: 'Portugal/Lisbon',
-        hour: 'numeric',
-        minute: 'numeric',
-        second: 'numeric'
-    };
-    const formatter = new Intl.DateTimeFormat([], options);
+<div id="txt"></div>
 
-    // set time
-    setInterval(() => {
-        const timeEl = document.querySelector("#time");
-        if (timeEl) {
-            timeEl.innerText = formatter.format(new Date());
-        }
-    }, 1000);
-});
+<script>
+function startTime() {
+  const today = new Date();
+  let h = today.getHours();
+  let m = today.getMinutes();
+  let s = today.getSeconds();
+  m = checkTime(m);
+  s = checkTime(s);
+  document.getElementById('txt').innerHTML =  h + ":" + m;
+  setTimeout(startTime, 1000);
+}
+
+function checkTime(i) {
+  if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+  return i;
+}
 </script>
 </head>
 
