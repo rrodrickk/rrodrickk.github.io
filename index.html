@@ -1,7 +1,23 @@
 <!DOCTYPE html>
 <html>
+<style>
+body {
+    margin: 0;
+    min-height: 100vh;
+    background-image: url('https://i.imgur.com/DYHSa3W.png');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+}
+</style>
+<body>
 <head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 <title>RRODRICKK</title>
+<style>
+    body, p, a {
+        color: white;
+    }
+</style>
 <link rel="shortcut icon" href="./portfolio/favicon.png" type="image/x-icon">
 <link rel="icon" href="./portfolio/favicon.png" type="image/x-icon">
 <style>
@@ -14,24 +30,25 @@ body {top: 0; left: 0; width: 99%; height: 97%;
 </style>
 
 <script type="text/javascript">
-    // declare time zone formatting
-    let options = {
-        timeZone: 'PT/Braga',
+document.addEventListener("DOMContentLoaded", () => {
+    const options = {
+        timeZone: 'Portugal/Lisbon',
         hour: 'numeric',
         minute: 'numeric',
-        second: 'numeric',
-    },
-    formatter = new Intl.DateTimeFormat([], options);
+        second: 'numeric'
+    };
+    const formatter = new Intl.DateTimeFormat([], options);
 
     // set time
-    setInterval(
-        () => {
-            document.querySelector("#time").innerText = formatter.format(new Date());
+    setInterval(() => {
+        const timeEl = document.querySelector("#time");
+        if (timeEl) {
+            timeEl.innerText = formatter.format(new Date());
         }
-    , 1000)
+    }, 1000);
+});
 </script>
 </head>
-
 
 
 
@@ -44,7 +61,7 @@ body {top: 0; left: 0; width: 99%; height: 97%;
 <span id=timezone>
 <i>
 <a href="https://24timezones.com/current_time/portugal_braga_clock.php">TIME IN BRAGA</a> - <span
-    id="time">0:00 PM</span> <a href="https://24timezones.com/current_time/portugal_braga_clock.php">MDT</a>
+    id="time">0:00 PM</span>
 </i>
 </span>
 <br><br>
