@@ -1,0 +1,206 @@
+/* Reset + Base Styles */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: 'Space Grotesk', sans-serif;
+  color: #ffffff;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center center;
+  background-size: cover;
+}
+
+/* Guide Typography */
+.guide-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5rem 1rem;
+  min-height: 100vh;
+}
+
+.title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 2rem;
+  color: #ffffff;
+  margin-bottom: 1.5rem;
+}
+
+.guide-text {
+  font-family: 'Space Grotesk', sans-serif;
+  color: #ffffff;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.guide-text ol {
+  margin-left: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.guide-text li {
+  margin-bottom: 0.5rem;
+}
+
+/* Typography */
+.heading {
+  text-align: center;
+  font-family: 'Bitcount Single', system-ui;
+  font-size: 4rem;
+  color: #ffffff;
+  margin-bottom: 10px;
+  text-shadow: 4px 4px 5px grey;
+}
+
+.subheading {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 2rem;
+  text-align: center;
+  letter-spacing: 6px;
+  color: #ffffff;
+  margin-bottom: 1rem;
+  text-shadow: 4px 4px 5px grey;
+}
+
+.text {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.25rem;
+  line-height: 1.6;
+  color: #ffffff;
+  text-align: justify;
+  margin-bottom: 2rem;
+}
+
+.cta-link {
+  font-family: 'Space Grotesk', sans-serif;
+  color: #a96700;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border-bottom: 2px solid #a96700;
+  padding-bottom: 4px;
+  text-decoration: none;
+  transition: color 0.3s, border-color 0.3s;
+}
+
+.cta-link:hover {
+  color: #333;
+  border-color: #333;
+}
+
+/* Layout Components */
+.content-wrapper {
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 2rem;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5rem 1rem;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+/* Navigation */
+.nav-links {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.2rem;
+  text-shadow: 4px 4px 5px grey;
+  margin-top: 2rem;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  /* margin-bottom: -10px; */
+  text-shadow: 4px 4px 5px grey;
+}
+
+.nav-links a:hover {
+  color: #a96700;
+}
+
+.back-button {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  text-decoration: none;
+  color: white;
+  font-size: 24px;
+}
+
+.logo {
+  max-width: 560px;
+  margin: 2rem 0;
+}
+
+/* Divider */
+.divider {
+  width: 80px;
+  height: 3px;
+  background: #a96700;
+  margin: 1.5rem auto;
+}
+
+/* Table Styles (for blog listing) */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+th,
+td {
+  padding: 12px 20px;
+  border-bottom: 1px solid rgba(169, 103, 0, 0.3);
+}
+
+th {
+  text-align: left;
+  border-bottom: 1px solid #a96700;
+}
+
+tr:hover {
+  background-color: rgba(169, 103, 0, 0.2);
+}
+
+/* Responsive
+@media (max-width: 640px) {
+  .name {
+    font-size: 3rem;
+  }
+
+  .subtitle {
+    font-size: 1.25rem;
+    letter-spacing: 3px;
+  }
+
+  .bio {
+    font-size: 1rem;
+  }
+
+  .cta-link {
+    font-size: 1.2rem;
+  }
+} */
+
+/* Background Images for Different Pages */
+body.home-page {
+  background-image: url('https://i.imgur.com/Vsa9E0Y.png');
+}
+
+body.site-page {
+  background-image: url('https://i.imgur.com/cBK5rMJ.png');
+}

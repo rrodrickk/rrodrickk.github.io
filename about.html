@@ -2,121 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <title>About me</title>
   <link rel="shortcut icon" href="./favicon.png" type="image/x-icon">
   <link rel="icon" href="./favicon.png" type="image/x-icon">
   <link rel="stylesheet" href="styles.css">
-  <div style="position: fixed; top: 20px; left: 20px;">
-  <a href="./" style="text-decoration: none; color: white; font-size: 24px;">←</a>
-  </div>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About Me – Rodrigo Silva</title>
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Herr+Von+Muellerhoff&family=Space+Grotesk:wght@400;600&display=swap " rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Bitcount+Single:wght@100..900&display=swap" rel="stylesheet">
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-        margin: 0;
-        min-height: 100%;
-        background-image: url('https://i.imgur.com/cBK5rMJ.png');
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        background-position: center center;
-        background-size: cover;
-    }
-
-    .about-me {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 5rem 1rem;
-      min-height: 100vh;
-    }
-
-    .content-wrapper {
-      max-width: 700px;
-      /* text-align: center; */
-    }
-
-    .name {
-      text-align: center;
-      font-family: 'Bitcount Single', system-ui;
-      font-size: 4rem;
-      color: #ffffff;
-      margin-bottom: 10px;
-    }
-
-    .subtitle {
-      text-align: center;
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 2rem;
-      letter-spacing: 6px;
-      /* text-transform: uppercase; */
-      color: #ffffff;
-      margin-bottom: 1rem;
-    }
-
-    .divider {
-      width: 80px;
-      height: 3px;
-      background: #a96700;
-      margin: 1.5rem auto;
-    }
-
-    .bio {
-      font-family: 'Space Grotesk', sans-serif;
-      text-align: justify;
-      font-size: 1.25rem;
-      line-height: 1.6;
-      color: #ffffff;
-      margin-bottom: 2rem;
-    }
-
-    .cta-link {
-      font-family: 'Space Grotesk', sans-serif;
-      color: #a96700;
-      font-size: 2rem;
-      font-weight: bold;
-      border-bottom: 2px solid #a96700;
-      padding-bottom: 4px;
-      text-decoration: none;
-      transition: color 0.3s, border-color 0.3s;
-    }
-
-    .cta-link:hover {
-      color: #333;
-      border-color: #333;
-    }
-
-    @media (max-width: 640px) {
-      .name {
-        font-size: 3rem;
-      }
-
-      .subtitle {
-        font-size: 1.25rem;
-        letter-spacing: 3px;
-      }
-
-      .bio {
-        font-size: 1rem;
-      }
-    }
-  </style>
 </head>
-<body>
-
+<body class="site-page">
+  <a href="./" class="back-button">←</a>
   <section id="about-me" class="about-me">
     <div class="content-wrapper">
-      <h1 class="name">Rodrigo Silva</h1>
-      <h2 class="subtitle">AKA rrodrickk</h2>
+      <h1 class="heading">Rodrigo Silva</h1>
+      <h2 class="subheading">AKA rrodrickk</h2>
       <div class="divider"></div>
       <img
       src="https://i.imgur.com/iYQa6gW.png"
@@ -126,7 +24,7 @@
       style="display: block; margin: 0 auto; border-radius: 10px;"
       />
       <div class="divider"></div>
-      <p class="bio">
+      <p class="text">
         I'm 19-year-old born in Braga in Portugal, second-year Informatics/Software 
         Engineering undergraduate at the University of Minho in Braga, Portugal. 
         Outside the campus and away from a desk I am studying jazz with guitar as
@@ -146,9 +44,7 @@
         my skills torwards that area.
         <br/>
       </p>
-      <div style="text-align: center;">
-      <a href="https://github.com/rrodrickk?tab=repositories" class="cta-link">See my projects →</a>
-      </div>
+      <a class="cta-link" href="https://github.com/rrodrickk?tab=repositories">See my projects →</a>
     </div>
   </section>
 
