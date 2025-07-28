@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <title>about</title>
 <link rel="shortcut icon" href="./favicon.png" type="image/x-icon">
@@ -35,9 +35,165 @@ body {
       height="400"
       />
     </div>
-
-    <p style="background-color:black;color:white;text-align:justify;max-width:600px;margin:20px auto;">I'm a first-year Informatics / Software Engineering undergraduate at the University of Minho in Braga, Portugal. Outside the lecture halls I am the lead guitarist and co-founder of the Rock Jazz band <a style="color:rgb(190, 153, 43);text-decoration:underline;" href="https://solmane.bandcamp.com/">Solmåne</a>, where I arrange, record and perform original material while honing the soft-skills—discipline.
-    </p>
+    <font style="font-family:'Arial', sans-serif; font-weight: bold;text-shadow: 4px 4px 5px grey;color:white; text-align:justify; max-width:600px; margin:20px auto;">
+      <p>I'm a 19-year-old first-year Informatics / Software Engineering undergraduate at the University of Minho in Braga, Portugal. Outside the lecture halls I am the lead guitarist and co-founder of the Rock Jazz band <a style="color:rgb(190, 153, 43);text-decoration:underline;" href="https://solmane.bandcamp.com/">Solmåne</a>, where I arrange, record and perform original material while honing the soft-skills—discipline.</p>
+    </font>
   </div>
+</body> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="styles.css">
+  <div style="position: fixed; top: 20px; left: 20px;">
+  <a href="./" style="text-decoration: none; color: white; font-size: 24px;">←</a>
+</div>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Me – Rodrigo Silva</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Herr+Von+Muellerhoff&family=Space+Grotesk:wght@400;600&display=swap " rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bitcount+Single:wght@100..900&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+        margin: 0;
+        min-height: 100%;
+        background-image: url('https://i.imgur.com/cBK5rMJ.png');
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-position: center center;
+        background-size: cover;
+    }
+
+    .about-me {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 5rem 1rem;
+      min-height: 100vh;
+    }
+
+    .content-wrapper {
+      max-width: 700px;
+      /* text-align: center; */
+    }
+
+    .name {
+      text-align: center;
+      font-family: 'Bitcount Single', system-ui;
+      font-size: 4rem;
+      color: #ffffff;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2rem;
+      letter-spacing: 6px;
+      /* text-transform: uppercase; */
+      color: #ffffff;
+      margin-bottom: 1rem;
+    }
+
+    .divider {
+      width: 80px;
+      height: 3px;
+      background: #a96700;
+      margin: 1.5rem auto;
+    }
+
+    .bio {
+      font-family: 'Space Grotesk', sans-serif;
+      text-align: justify;
+      font-size: 1.25rem;
+      line-height: 1.6;
+      color: #ffffff;
+      margin-bottom: 2rem;
+    }
+
+    .cta-link {
+      font-family: 'Space Grotesk', sans-serif;
+      color: #a96700;
+      font-size: 2rem;
+      font-weight: bold;
+      border-bottom: 2px solid #a96700;
+      padding-bottom: 4px;
+      text-decoration: none;
+      transition: color 0.3s, border-color 0.3s;
+    }
+
+    .cta-link:hover {
+      color: #333;
+      border-color: #333;
+    }
+
+    @media (max-width: 640px) {
+      .name {
+        font-size: 3rem;
+      }
+
+      .subtitle {
+        font-size: 1.25rem;
+        letter-spacing: 3px;
+      }
+
+      .bio {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <section id="about-me" class="about-me">
+    <div class="content-wrapper">
+      <h1 class="name">Rodrigo Silva</h1>
+      <h2 class="subtitle">AKA rrodrickk</h2>
+      <div class="divider"></div>
+      <img
+      src="https://i.imgur.com/iYQa6gW.png"
+      alt="After a session of vibe-coding, full of performance errors"
+      width="225"
+      height="300"
+      style="display: block; margin: 0 auto; border-radius: 10px;"
+      />
+      <div class="divider"></div>
+      <p class="bio">
+        I'm 19-year-old born in Braga in Portugal, second-year Informatics/Software 
+        Engineering undergraduate at the University of Minho in Braga, Portugal. 
+        Outside the campus and away from a desk I am studying jazz with guitar as
+        my main instrument, my preferred genres other than jazz are neo-soul, blues,
+        barber beats, shoegaze, rock, and my favorite inspirations as a musician are
+        Miguel Araújo, Ganso, Pat Metheny, Pink FLoyd, Khruangbin, Sade, Masayoshi 
+        Takanaka, Casiopea, etc...(here's my <a style="font-weight: bold;color:#a96700;text-decoration:underline;" href="https://solmane.bandcamp.com/">Spotify</a>) 
+        currently I am the lead guitarist and co-founder of a Rock-Pop band called
+        <a style="font-weight: bold;color:#a96700;text-decoration:underline;" href="https://open.spotify.com/user/eve4hhsu6ykyoseqtmgxicydx">Solmåne</a>,
+        where I arrange, record and perform original material, with my fellow peers.
+        <br/>
+        <br/>
+        My interest in this field was sparked at a young age. My father is a software 
+        engineer and I grew up with computers. I always wanted to develop/manage 
+        programs, so it was a natural progression for me. In the future I aim to do
+        a masters degree in artificial intelligence and machine learning, and develop
+        my skills torwards that area.
+        <br/>
+      </p>
+      <div style="text-align: center;">
+      <a href="#projects" class="cta-link">See my projects →</a>
+      </div>
+    </div>
+  </section>
+
 </body>
+</html>
 
