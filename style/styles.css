@@ -226,3 +226,22 @@ body.home-page {
 body.site-page {
   background-image: url('https://i.imgur.com/cBK5rMJ.png');
 }
+
+/* Fade Transition Styles */
+
+
+/* initial hidden state */
+html.fade-ready, body.fade-ready {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+/* visible state */
+html.fade-ready.loaded, body.fade-ready.loaded {
+  opacity: 1;
+}
+
+/* fade-out on exit */
+html.fading, body.fading {
+  opacity: 0;
+}
