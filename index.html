@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>rrodrickk</title>
@@ -9,22 +10,51 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Bitcount+Single:wght@100..900&display=swap" rel="stylesheet">
 </head>
+
 <body class="home-page">
-    
+    <script>
+        (function () {
+            // 1) Mark the page as ready for fading
+            document.documentElement.classList.add('fade-ready');
+
+            // 2) On page load, add "loaded" to fade in
+            window.addEventListener('load', () => {
+                document.documentElement.classList.add('loaded');
+            });
+
+            // 3) Intercept all internal link clicks
+            document.body.addEventListener('click', e => {
+                // only handle <a> tags with same‑origin hrefs
+                const a = e.target.closest('a');
+                if (!a || a.target === '_blank' || a.href.indexOf(location.origin) !== 0) return;
+                e.preventDefault();
+
+                // fade-out
+                document.documentElement.classList.add('fading');
+
+                // after the transition, go to the link
+                setTimeout(() => {
+                    window.location = a.href;
+                }, 400); // match your CSS duration (0.4s)
+            });
+        })();
+    </script>
+
     <div class="content-wrapper">
         <h1 class="heading">rrodrickk</h1>
-        
+
         <img src="https://i.imgur.com/DHOsFfC.png" class="logo" alt="logo">
-        
+
         <div class="nav-links a" id="timezone">
-            <a href="https://24timezones.com/current_time/portugal_braga_clock.php">TIME IN BRAGA</a> - 
+            <a href="https://24timezones.com/current_time/portugal_braga_clock.php">TIME IN BRAGA</a> -
             <span id="time">0:00 PM</span>
         </div>
 
         <div class="nav-links">
             <a href="http://rrodrickk.github.io/about.html">about</a> //
             <a href="http://rrodrickk.github.io/blog">blog</a> //
-            <a href="https://drive.google.com/file/d/17CnAyDkTUckt3jNoQjzsUmVlzP1jdp6t/view?usp=sharing">curriculum vitae</a> //
+            <a href="https://drive.google.com/file/d/17CnAyDkTUckt3jNoQjzsUmVlzP1jdp6t/view?usp=sharing">curriculum
+                vitae</a> //
             <a href="http://rrodrickk.github.io/contact.html">contact</a>
         </div>
     </div>
@@ -36,11 +66,13 @@
             minute: 'numeric',
             second: 'numeric',
         },
-        formatter = new Intl.DateTimeFormat([], options);
-        
+            formatter = new Intl.DateTimeFormat([], options);
+
         setInterval(() => {
             document.querySelector("#time").innerText = formatter.format(new Date());
         }, 1000);
     </script>
 </body>
-</html></div>
+
+</html>
+</div>
