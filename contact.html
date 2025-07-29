@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Contact</title>
@@ -9,28 +10,58 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Bitcount+Single:wght@100..900&display=swap" rel="stylesheet">
 </head>
+
 <body class="site-page">
   <a href="./" class="back-button">←</a>
-  
+  <script>
+    (function () {
+      // 1) Mark the page as ready for fading
+      document.documentElement.classList.add('fade-ready');
+
+      // 2) On page load, add "loaded" to fade in
+      window.addEventListener('load', () => {
+        document.documentElement.classList.add('loaded');
+      });
+
+      // 3) Intercept all internal link clicks
+      document.body.addEventListener('click', e => {
+        // only handle <a> tags with same‑origin hrefs
+        const a = e.target.closest('a');
+        if (!a || a.target === '_blank' || a.href.indexOf(location.origin) !== 0) return;
+        e.preventDefault();
+
+        // fade-out
+        document.documentElement.classList.add('fading');
+
+        // after the transition, go to the link
+        setTimeout(() => {
+          window.location = a.href;
+        }, 400); // match your CSS duration (0.4s)
+      });
+    })();
+  </script>
+
   <div class="container">
     <section class="content-wrapper">
       <img src="./favicon.png" alt="Contact Icon" style="width: 250px; height: 250px; margin-bottom: 1rem;">
       <p class="text">
-        I'll only respond to those proposals that are a good match for my schedule and interests, but don't hesitate to reach out.<br/> Thank you
+        I'll only respond to those proposals that are a good match for my schedule and interests, but don't hesitate to
+        reach out.<br /> Thank you
       </p>
-        <div class="divider"></div>
-        <p class="subheading">Gmail</p>
-        <a class="cta-link" href="mailto:rodrigomrsilva06@gmail.com">rodrigomrsilva06@gmail.com</a>
-        <div class="divider"></div>
-        <p class="subheading">LinkedIn</p>
-        <a class="cta-link" href="https://www.linkedin.com/in/rodrigomrsilvaa/">linkedin.com/in/rodrigomrsilvaa</a></p>
-        <div class="divider"></div>
-        <p class="subheading">GitHub</p>
-        <a class="cta-link"href="https://github.com/rrodrickk">github.com/rrodrickk</a></p>
-        <div class="divider"></div>
-        <p class="subheading">Instagram</p>
-        <a class="cta-link"href="https://www.instagram.com/rrodrickk/">instagram.com/rrodrickk</a></p>
+      <div class="divider"></div>
+      <p class="subheading">Gmail</p>
+      <a class="cta-link" href="mailto:rodrigomrsilva06@gmail.com">rodrigomrsilva06@gmail.com</a>
+      <div class="divider"></div>
+      <p class="subheading">LinkedIn</p>
+      <a class="cta-link" href="https://www.linkedin.com/in/rodrigomrsilvaa/">linkedin.com/in/rodrigomrsilvaa</a></p>
+      <div class="divider"></div>
+      <p class="subheading">GitHub</p>
+      <a class="cta-link" href="https://github.com/rrodrickk">github.com/rrodrickk</a></p>
+      <div class="divider"></div>
+      <p class="subheading">Instagram</p>
+      <a class="cta-link" href="https://www.instagram.com/rrodrickk/">instagram.com/rrodrickk</a></p>
     </section>
   </div>
 </body>
+
 </html>
