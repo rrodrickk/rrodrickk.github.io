@@ -47,9 +47,9 @@
     </script>
     <script>
         ; (function () {
-            const DURATION = 400; // match CSS 0.4s
+            const DURATION = 800; // match 0.8s
 
-            // 1) On load, read direction and play enter animation
+            // on load, determine direction and play the "enter" animation
             const dir = sessionStorage.getItem('transition') || 'forward';
             document.documentElement.classList.add(dir + '-enter');
             requestAnimationFrame(() => {
@@ -60,16 +60,17 @@
                 sessionStorage.removeItem('transition');
             }, DURATION);
 
-            // 2) Intercept link clicks
+            // intercept all link clicks
             document.body.addEventListener('click', e => {
                 const a = e.target.closest('a');
-                if (!a || a.target === '­_blank' || a.href.indexOf(location.origin) !== 0) return;
+                if (!a || a.target === ' _blank' || a.href.indexOf(location.origin) !== 0) return;
                 e.preventDefault();
 
-                const isBack = a.classList.contains('back-button');
-                const outDir = isBack ? 'back' : 'forward';
+                // decide forward vs back
+                const outDir = a.classList.contains('back-button') ? 'back' : 'forward';
                 sessionStorage.setItem('transition', outDir);
 
+                // play exit animation
                 document.documentElement.classList.add(outDir + '-exit');
                 requestAnimationFrame(() => {
                     document.documentElement.classList.add('exiting');
@@ -81,6 +82,7 @@
             });
         })();
     </script>
+
 
 </body>
 

@@ -227,42 +227,58 @@ body.site-page {
   background-image: url('https://i.imgur.com/cBK5rMJ.png');
 }
 
-/* prevent horizontal scrollbar */
+/* hide horizontal scrollbars */
 html, body {
   overflow-x: hidden;
 }
 
-/* -- FORWARD (new page slides in from right) -- */
+/* ---- FORWARD TRANSITION (links without .back-button) ---- */
 html.forward-enter {
   transform: translateX(100%);
+  opacity: 0;
 }
 html.forward-enter.entering {
-  transition: transform 0.4s ease;
+  transition:
+    transform 0.8s ease-in-out,
+    opacity   0.8s ease-in-out;
   transform: translateX(0);
+  opacity: 1;
 }
 
 html.forward-exit {
   transform: translateX(0);
+  opacity: 1;
 }
 html.forward-exit.exiting {
-  transition: transform 0.4s ease;
+  transition:
+    transform 0.8s ease-in-out,
+    opacity   0.8s ease-in-out;
   transform: translateX(-100%);
+  opacity: 0;
 }
 
-/* -- BACK (new page slides in from left) -- */
+/* ---- BACK TRANSITION (links with .back-button) ---- */
 html.back-enter {
   transform: translateX(-100%);
+  opacity: 0;
 }
 html.back-enter.entering {
-  transition: transform 0.4s ease;
+  transition:
+    transform 0.8s ease-in-out,
+    opacity   0.8s ease-in-out;
   transform: translateX(0);
+  opacity: 1;
 }
 
 html.back-exit {
   transform: translateX(0);
+  opacity: 1;
 }
 html.back-exit.exiting {
-  transition: transform 0.4s ease;
+  transition:
+    transform 0.8s ease-in-out,
+    opacity   0.8s ease-in-out;
   transform: translateX(100%);
+  opacity: 0;
 }
 
