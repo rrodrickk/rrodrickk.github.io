@@ -227,58 +227,48 @@ body.site-page {
   background-image: url('https://i.imgur.com/cBK5rMJ.png');
 }
 
-/* hide horizontal scrollbars */
-html, body {
-  overflow-x: hidden;
+/* ensure no white gap when html fades/slides */
+html, body { overflow-x: hidden; }
+
+/* overlay for the incoming background */
+#bg-overlay {
+  position: fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background-size: cover;
+  background-position: center center;
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+  z-index: -1; /* behind #content */
 }
 
-/* ---- FORWARD TRANSITION (links without .back-button) ---- */
-html.forward-enter {
-  transform: translateX(100%);
+/* content fade */
+#content {
   opacity: 0;
+  transition: opacity 0.8s ease-in-out;
 }
-html.forward-enter.entering {
-  transition:
-    transform 0.8s ease-in-out,
-    opacity   0.8s ease-in-out;
+
+/* --- SLIDE + OPACITY on <html> --- */
+html.forward-enter, html.back-enter {
+  transform: translateX(var(--enter-from));
+}
+html.forward-enter.entering, html.back-enter.entering {
+  transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out;
   transform: translateX(0);
   opacity: 1;
 }
-
-html.forward-exit {
+html.forward-exit, html.back-exit {
   transform: translateX(0);
   opacity: 1;
 }
-html.forward-exit.exiting {
-  transition:
-    transform 0.8s ease-in-out,
-    opacity   0.8s ease-in-out;
-  transform: translateX(-100%);
+html.forward-exit.exiting, html.back-exit.exiting {
+  transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out;
+  transform: translateX(var(--exit-to));
   opacity: 0;
 }
 
-/* ---- BACK TRANSITION (links with .back-button) ---- */
-html.back-enter {
-  transform: translateX(-100%);
-  opacity: 0;
-}
-html.back-enter.entering {
-  transition:
-    transform 0.8s ease-in-out,
-    opacity   0.8s ease-in-out;
-  transform: translateX(0);
-  opacity: 1;
-}
-
-html.back-exit {
-  transform: translateX(0);
-  opacity: 1;
-}
-html.back-exit.exiting {
-  transition:
-    transform 0.8s ease-in-out,
-    opacity   0.8s ease-in-out;
-  transform: translateX(100%);
-  opacity: 0;
-}
-
+/* which direction for each class */
+html.forward-enter  { --enter-from: 100%;  }
+html.forward-exit   { --exit-to:   -100%; }
+html.back-enter     { --enter-from: -100%; }
+html.back-exit      { --exit-to:    100%; }

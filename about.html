@@ -11,78 +11,83 @@
   <link href="https://fonts.googleapis.com/css2?family=Bitcount+Single:wght@100..900&display=swap" rel="stylesheet">
 </head>
 
-<body class="site-page">
-  <a href="./" class="back-button">←</a>
-  <section id="about-me" class="about-me">
-    <div class="content-wrapper">
-      <h1 class="heading">Rodrigo Silva</h1>
-      <h2 class="subheading">AKA rrodrickk</h2>
-      <div class="divider"></div>
-      <img src="https://i.imgur.com/iYQa6gW.png" alt="After a session of vibe-coding, full of performance errors"
-        width="225" height="300" style="display: block; margin: 0 auto; border-radius: 10px;" />
-      <div class="divider"></div>
-      <p class="text">
-        I'm 19-year-old born in Braga in Portugal, second-year Informatics/Software
-        Engineering undergraduate at the University of Minho in Braga, Portugal.
-        Outside the campus and away from a desk I am studying jazz with guitar as
-        my main instrument, my preferred genres other than jazz are neo-soul, blues,
-        barber beats, shoegaze, rock, and my favorite inspirations as a musician are
-        Miguel Araújo, Ganso, Pat Metheny, Pink FLoyd, Khruangbin, Sade, Masayoshi
-        Takanaka, Casiopea, etc...(here's my <a style="font-weight: bold;color:#a96700;text-decoration:underline;"
-          href="https://open.spotify.com/user/eve4hhsu6ykyoseqtmgxicydx">Spotify</a>)
-        currently I am the lead guitarist and co-founder of a Rock-Pop band called
-        <a style="font-weight: bold;color:#a96700;text-decoration:underline;"
-          href="https://solmane.bandcamp.com/">Solmåne</a>,
-        where I arrange, record and perform original material, with my fellow peers.
-        <br />
-        <br />
-        My interest in this field was sparked at a young age. My father is a software
-        engineer and I grew up with computers. I always wanted to develop/manage
-        programs, so it was a natural progression for me. In the future I aim to do
-        a masters degree in artificial intelligence and machine learning, and develop
-        my skills torwards that area.
-        <br />
-      </p>
-      <a class="cta-link" href="https://github.com/rrodrickk?tab=repositories">See my projects →</a>
-    </div>
-  </section>
-  <script>
-    ; (function () {
-      const DURATION = 800; // match 0.8s
+<<body 
+  class="site-page"
+  style="--bg-url: url('https://i.imgur.com/cBK5rMJ.png')">>
+  <div id="bg-overlay"></div>
+  <div id="content">
+    <a href="./" class="back-button">←</a>
+    <section id="about-me" class="about-me">
+      <div class="content-wrapper">
+        <h1 class="heading">Rodrigo Silva</h1>
+        <h2 class="subheading">AKA rrodrickk</h2>
+        <div class="divider"></div>
+        <img src="https://i.imgur.com/iYQa6gW.png" alt="After a session of vibe-coding, full of performance errors"
+          width="225" height="300" style="display: block; margin: 0 auto; border-radius: 10px;" />
+        <div class="divider"></div>
+        <p class="text">
+          I'm 19-year-old born in Braga in Portugal, second-year Informatics/Software
+          Engineering undergraduate at the University of Minho in Braga, Portugal.
+          Outside the campus and away from a desk I am studying jazz with guitar as
+          my main instrument, my preferred genres other than jazz are neo-soul, blues,
+          barber beats, shoegaze, rock, and my favorite inspirations as a musician are
+          Miguel Araújo, Ganso, Pat Metheny, Pink FLoyd, Khruangbin, Sade, Masayoshi
+          Takanaka, Casiopea, etc...(here's my <a style="font-weight: bold;color:#a96700;text-decoration:underline;"
+            href="https://open.spotify.com/user/eve4hhsu6ykyoseqtmgxicydx">Spotify</a>)
+          currently I am the lead guitarist and co-founder of a Rock-Pop band called
+          <a style="font-weight: bold;color:#a96700;text-decoration:underline;"
+            href="https://solmane.bandcamp.com/">Solmåne</a>,
+          where I arrange, record and perform original material, with my fellow peers.
+          <br />
+          <br />
+          My interest in this field was sparked at a young age. My father is a software
+          engineer and I grew up with computers. I always wanted to develop/manage
+          programs, so it was a natural progression for me. In the future I aim to do
+          a masters degree in artificial intelligence and machine learning, and develop
+          my skills torwards that area.
+          <br />
+        </p>
+        <a class="cta-link" href="https://github.com/rrodrickk?tab=repositories">See my projects →</a>
+      </div>
+    </section>
+  </div>  
+    <script>
+      ; (function () {
+        const DURATION = 800; // match 0.8s
 
-      // on load, determine direction and play the "enter" animation
-      const dir = sessionStorage.getItem('transition') || 'forward';
-      document.documentElement.classList.add(dir + '-enter');
-      requestAnimationFrame(() => {
-        document.documentElement.classList.add('entering');
-      });
-      setTimeout(() => {
-        document.documentElement.classList.remove(dir + '-enter', 'entering');
-        sessionStorage.removeItem('transition');
-      }, DURATION);
-
-      // intercept all link clicks
-      document.body.addEventListener('click', e => {
-        const a = e.target.closest('a');
-        if (!a || a.target === ' _blank' || a.href.indexOf(location.origin) !== 0) return;
-        e.preventDefault();
-
-        // decide forward vs back
-        const outDir = a.classList.contains('back-button') ? 'back' : 'forward';
-        sessionStorage.setItem('transition', outDir);
-
-        // play exit animation
-        document.documentElement.classList.add(outDir + '-exit');
+        // on load, determine direction and play the "enter" animation
+        const dir = sessionStorage.getItem('transition') || 'forward';
+        document.documentElement.classList.add(dir + '-enter');
         requestAnimationFrame(() => {
-          document.documentElement.classList.add('exiting');
+          document.documentElement.classList.add('entering');
         });
-
         setTimeout(() => {
-          window.location = a.href;
+          document.documentElement.classList.remove(dir + '-enter', 'entering');
+          sessionStorage.removeItem('transition');
         }, DURATION);
-      });
-    })();
-  </script>
+
+        // intercept all link clicks
+        document.body.addEventListener('click', e => {
+          const a = e.target.closest('a');
+          if (!a || a.target === ' _blank' || a.href.indexOf(location.origin) !== 0) return;
+          e.preventDefault();
+
+          // decide forward vs back
+          const outDir = a.classList.contains('back-button') ? 'back' : 'forward';
+          sessionStorage.setItem('transition', outDir);
+
+          // play exit animation
+          document.documentElement.classList.add(outDir + '-exit');
+          requestAnimationFrame(() => {
+            document.documentElement.classList.add('exiting');
+          });
+
+          setTimeout(() => {
+            window.location = a.href;
+          }, DURATION);
+        });
+      })();
+    </script>
 
 
 </body>
