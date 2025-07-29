@@ -17,46 +17,14 @@ body {
   background-size: cover;
 }
 
-/* Guide Typography */
-.guide-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 5rem 1rem;
-  min-height: 100vh;
-}
-
-.title {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 2rem;
-  color: #ffffff;
-  margin-bottom: 1.5rem;
-}
-
-.guide-text {
-  font-family: 'Space Grotesk', sans-serif;
-  color: #ffffff;
-  line-height: 1.6;
-  margin-bottom: 1rem;
-}
-
-.guide-text ol {
-  margin-left: 2rem;
-  margin-bottom: 1.5rem;
-}
-
-.guide-text li {
-  color: #ffffff;
-  margin-bottom: 0.5rem;
-}
 
 /* Typography */
 .heading {
   text-align: center;
   font-family: 'Bitcount Single', system-ui;
-  font-size: 4rem;
+  font-size: 4.5rem;
   color: #ffffff;
-  margin-bottom: 10px;
+  margin-bottom: 5rem;
   text-shadow: 4px 4px 5px grey;
 }
 
@@ -103,6 +71,47 @@ body {
   padding: 2rem;
 }
 
+.content-wrapper-guide {
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: justify;
+  padding: 2rem;
+}
+
+/* Guide Typography */
+.guide-container {
+  display: flex;
+  justify-content: center;
+  align-items: justify;
+  padding: 5rem 1rem;
+  min-height: 100vh;
+}
+
+.title{
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 2rem;
+  color: #ffffff;
+  margin-bottom: 1.5rem;
+}
+
+.guide-text {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.3rem;
+  color: #ffffff;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.guide-text ol {
+  margin-left: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.guide-text li {
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+
 .container {
   display: flex;
   justify-content: center;
@@ -110,6 +119,17 @@ body {
   padding: 5rem 1rem;
   min-height: 100vh;
   flex-direction: column;
+}
+
+.quote {
+  font-size: 1.5em;
+  font-style: italic;
+  color: #a96700;
+  margin: 1rem auto;
+  padding: 1em auto;
+  border-left: 5px solid #a96700;
+  background: linear-gradient(to right, #49371a, transparent);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 /* Navigation */
@@ -142,7 +162,7 @@ body {
 
 .logo {
   max-width: 560px;
-  margin: 2rem 0;
+  margin: 2rem auto;
 }
 
 /* Divider */

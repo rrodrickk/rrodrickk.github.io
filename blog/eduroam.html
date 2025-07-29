@@ -14,8 +14,8 @@
 <body class="site-page">
    <a href="./" clodrass="back-button">←</a>
    <div class="guide-container">
-      <div class="content-wrapper">
-         <h1 class="title">How to Connect to Eduroam</h1>
+      <div class="content-wrapper-guide">
+         <h1 class="heading">How to Connect to Eduroam</h1>
          <div class="guide-text">
             <h2 class="title">Linux (Arch) Setup</h2>
             <ol>
@@ -77,170 +77,9 @@
                   </ol>
                </li>
             </ol>
-
-            <p class="guide-text">Updated: 01/31/23</p>
          </div>
       </div>
    </div>
 </body>
-
 </html>
-</ol>
-</div>
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Eduroam Setup Guide</title>
-   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
-   
-   <style>
-      * {
-         box-sizing: border-box;
-         margin: 0;
-         padding: 0;
-      }
 
-      body {
-         margin: 0;
-         min-height: 100%;
-         background-image: url('https://i.imgur.com/cBK5rMJ.png');
-         background-repeat: no-repeat;
-         background-attachment: fixed;
-         background-position: center center;
-         background-size: cover;
-      }
-
-      .guide-container {
-         display: flex;
-         justify-content: center;
-         align-items: center;
-         padding: 5rem 1rem;
-         min-height: 100vh;
-      }
-
-      .content-wrapper {
-         max-width: 700px;
-         text-shadow: 4px 4px 5px grey;
-         padding: 2rem;
-         border-radius: 10px;
-      }
-
-      .title {
-         font-family: 'Space Grotesk', sans-serif;
-         font-size: 2rem;
-         color: #ffffff;
-         margin-bottom: 1.5rem;
-      }
-
-      .guide-text {
-         font-family: 'Space Grotesk', sans-serif;
-         color: #ffffff;
-         line-height: 1.6;
-         margin-bottom: 1rem;
-      }
-
-      .guide-text ol {
-         margin-left: 2rem;
-         margin-bottom: 1.5rem;
-      }
-
-      .guide-text li {
-         margin-bottom: 0.5rem;
-      }
-
-      .divider {
-         width: 80px;
-         height: 3px;
-         background: #a96700;
-         margin: 1.5rem 0;
-      }
-
-      .back-button {
-         position: fixed;
-         top: 20px;
-         left: 20px;
-         text-decoration: none;
-         color: white;
-         font-size: 24px;
-      }
-   </style>
-</head>
-<body>
-   <a href="./" class="back-button">←</a> -->
-
-<div class="guide-container">
-   <div class="content-wrapper">
-      <h1 class="title">How to Connect to Eduroam</h1>
-      <div class="guide-text">
-         <h2 class="title">Linux (Arch) Setup</h2>
-         <ol>
-            <li>Get the CA certificate from your school
-               <br>This process seems different for every school. For me, I had to go to my school's onboarding website,
-               then downloaded it from there.
-            </li>
-            <li>Connect to eduroam
-               <ol type="a">
-                  <li>Connect to hidden wifi network -> ssid -> eduroam</li>
-                  <li>Connect with the following settings—
-                     <p>
-                        Security: WPA & WPA2 Enterprise <br>
-                        Authentication: Protected EAP (PEAP) <br>
-                        Anonymous identity: (blank) <br>
-                        Domain: (blank) <br>
-                        CA certificate: my_school_certificate.cer <br>
-                        PEAP version: automatic <br>
-                        Inner authentication: MSCHAPv2 <br>
-                        Username: meow_man@alunosuminho.pt <br>
-                        Password: ******* (your school password)
-                     </p>
-                  </li>
-               </ol>
-            </li>
-         </ol>
-
-         <div class="divider"></div>
-
-         <h2 class="title">Boox Devices Setup</h2>
-         <p>For whatever reason my nova air don't seem to work with my university's wifi, as such I resort to eduroam
-         </p>
-         <ol>
-            <li>Get the CA certificate from your school
-               <br>This process seems different for every school. For me, I had to go to my school's onboarding website,
-               then downloaded it from there.
-            </li>
-            <li>Install the CA certificate on Android
-               <ol type="a">
-                  <li>Install the "Android Hidden Settings" app available in the Play Store</li>
-                  <li>Android Hidden Settings, Settings -> Security -> Encryption & Credentials -> Install from Storage
-                     -> Select the CA certificate -> Name it</li>
-               </ol>
-            </li>
-            <li>Connect to eduroam
-               <ol type="a">
-                  <li>Home -> Settings -> (+) at the top right -> ssid: eduroam, security -> WPA/WPA2/WPA3-Enterprise
-                  </li>
-                  <li>Connect with the following settings—
-                     <p>
-                        EAP method: PEAP <br>
-                        Phase 2 authentication: MSCHAPv2 <br>
-                        CA certificate: (select the previously installed certificate) <br>
-                        Identity: meow_man@alunosuminho.pt <br>
-                        Anonymous identity: (leave blank) <br>
-                        Password: ******* (your school password)
-                     </p>
-                  </li>
-               </ol>
-            </li>
-         </ol>
-
-         <p class="guide-text">Updated: 01/31/23</p>
-      </div>
-   </div>
-</div>
-</body>
-
-</html>
-</ol>
-</div>
