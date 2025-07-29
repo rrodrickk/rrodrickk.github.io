@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>About me</title>
@@ -9,45 +10,71 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Bitcount+Single:wght@100..900&display=swap" rel="stylesheet">
 </head>
+
 <body class="site-page">
+  <script>
+    (function () {
+      // 1) Mark the page as ready for fading
+      document.documentElement.classList.add('fade-ready');
+
+      // 2) On page load, add "loaded" to fade in
+      window.addEventListener('load', () => {
+        document.documentElement.classList.add('loaded');
+      });
+
+      // 3) Intercept all internal link clicks
+      document.body.addEventListener('click', e => {
+        // only handle <a> tags with same‑origin hrefs
+        const a = e.target.closest('a');
+        if (!a || a.target === '_blank' || a.href.indexOf(location.origin) !== 0) return;
+        e.preventDefault();
+
+        // fade-out
+        document.documentElement.classList.add('fading');
+
+        // after the transition, go to the link
+        setTimeout(() => {
+          window.location = a.href;
+        }, 400); // match your CSS duration (0.4s)
+      });
+    })();
+  </script>
+
   <a href="./" class="back-button">←</a>
   <section id="about-me" class="about-me">
     <div class="content-wrapper">
       <h1 class="heading">Rodrigo Silva</h1>
       <h2 class="subheading">AKA rrodrickk</h2>
       <div class="divider"></div>
-      <img
-      src="https://i.imgur.com/iYQa6gW.png"
-      alt="After a session of vibe-coding, full of performance errors"
-      width="225"
-      height="300"
-      style="display: block; margin: 0 auto; border-radius: 10px;"
-      />
+      <img src="https://i.imgur.com/iYQa6gW.png" alt="After a session of vibe-coding, full of performance errors"
+        width="225" height="300" style="display: block; margin: 0 auto; border-radius: 10px;" />
       <div class="divider"></div>
       <p class="text">
-        I'm 19-year-old born in Braga in Portugal, second-year Informatics/Software 
-        Engineering undergraduate at the University of Minho in Braga, Portugal. 
+        I'm 19-year-old born in Braga in Portugal, second-year Informatics/Software
+        Engineering undergraduate at the University of Minho in Braga, Portugal.
         Outside the campus and away from a desk I am studying jazz with guitar as
         my main instrument, my preferred genres other than jazz are neo-soul, blues,
         barber beats, shoegaze, rock, and my favorite inspirations as a musician are
-        Miguel Araújo, Ganso, Pat Metheny, Pink FLoyd, Khruangbin, Sade, Masayoshi 
-        Takanaka, Casiopea, etc...(here's my <a style="font-weight: bold;color:#a96700;text-decoration:underline;" href="https://open.spotify.com/user/eve4hhsu6ykyoseqtmgxicydx">Spotify</a>) 
+        Miguel Araújo, Ganso, Pat Metheny, Pink FLoyd, Khruangbin, Sade, Masayoshi
+        Takanaka, Casiopea, etc...(here's my <a style="font-weight: bold;color:#a96700;text-decoration:underline;"
+          href="https://open.spotify.com/user/eve4hhsu6ykyoseqtmgxicydx">Spotify</a>)
         currently I am the lead guitarist and co-founder of a Rock-Pop band called
-        <a style="font-weight: bold;color:#a96700;text-decoration:underline;" href="https://solmane.bandcamp.com/">Solmåne</a>,
+        <a style="font-weight: bold;color:#a96700;text-decoration:underline;"
+          href="https://solmane.bandcamp.com/">Solmåne</a>,
         where I arrange, record and perform original material, with my fellow peers.
-        <br/>
-        <br/>
-        My interest in this field was sparked at a young age. My father is a software 
-        engineer and I grew up with computers. I always wanted to develop/manage 
+        <br />
+        <br />
+        My interest in this field was sparked at a young age. My father is a software
+        engineer and I grew up with computers. I always wanted to develop/manage
         programs, so it was a natural progression for me. In the future I aim to do
         a masters degree in artificial intelligence and machine learning, and develop
         my skills torwards that area.
-        <br/>
+        <br />
       </p>
       <a class="cta-link" href="https://github.com/rrodrickk?tab=repositories">See my projects →</a>
     </div>
   </section>
 
 </body>
-</html>
 
+</html>
