@@ -269,4 +269,37 @@ body.fade-out {
   opacity: 0;
 }
 
+.contact-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.contact-item {
+  min-width: 180px;
+  max-width: 220px;
+}
+
+.contact-divider {
+  width: 2px;
+  height: 60px;
+  background-color: #a96700;
+  opacity: 0.5;
+}
+
+@media (max-width: 768px) {
+  .contact-row {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .contact-divider {
+    width: 60%;
+    height: 2px;
+  }
+}
 
