@@ -227,21 +227,42 @@ body.site-page {
   background-image: url('https://i.imgur.com/cBK5rMJ.png');
 }
 
-/* Fade Transition Styles */
-
-
-/* initial hidden state */
-html.fade-ready, body.fade-ready {
-  opacity: 0;
-  transition: opacity 0.4s ease;
+/* prevent horizontal scrollbar */
+html, body {
+  overflow-x: hidden;
 }
 
-/* visible state */
-html.fade-ready.loaded, body.fade-ready.loaded {
-  opacity: 1;
+/* -- FORWARD (new page slides in from right) -- */
+html.forward-enter {
+  transform: translateX(100%);
+}
+html.forward-enter.entering {
+  transition: transform 0.4s ease;
+  transform: translateX(0);
 }
 
-/* fade-out on exit */
-html.fading, body.fading {
-  opacity: 0;
+html.forward-exit {
+  transform: translateX(0);
 }
+html.forward-exit.exiting {
+  transition: transform 0.4s ease;
+  transform: translateX(-100%);
+}
+
+/* -- BACK (new page slides in from left) -- */
+html.back-enter {
+  transform: translateX(-100%);
+}
+html.back-enter.entering {
+  transition: transform 0.4s ease;
+  transform: translateX(0);
+}
+
+html.back-exit {
+  transform: translateX(0);
+}
+html.back-exit.exiting {
+  transition: transform 0.4s ease;
+  transform: translateX(100%);
+}
+
