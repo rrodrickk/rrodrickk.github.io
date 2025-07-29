@@ -11,131 +11,40 @@
     <link href="https://fonts.googleapis.com/css2?family=Bitcount+Single:wght@100..900&display=swap" rel="stylesheet">
 </head>
 
-<body 
-  class="home-page"                    
-  style="--bg-url: url('https://i.imgur.com/Vsa9E0Y.png')">
+<body class="home-page">
 
-    <div id="bg-overlay"></div>
-    <div id="content">
-        <div class="content-wrapper">
-            <h1 class="heading">rrodrickk</h1>
+    <div class="content-wrapper">
+        <h1 class="heading">rrodrickk</h1>
 
-            <img src="https://i.imgur.com/DHOsFfC.png" class="logo" alt="logo">
+        <img src="https://i.imgur.com/DHOsFfC.png" class="logo" alt="logo">
 
-            <div class="nav-links a" id="timezone">
-                <a href="https://24timezones.com/current_time/portugal_braga_clock.php">TIME IN BRAGA</a> -
-                <span id="time">0:00 PM</span>
-            </div>
+        <div class="nav-links a" id="timezone">
+            <a href="https://24timezones.com/current_time/portugal_braga_clock.php">TIME IN BRAGA</a> -
+            <span id="time">0:00 PM</span>
+        </div>
 
-            <div class="nav-links">
-                <a href="http://rrodrickk.github.io/about.html">about</a> //
-                <a href="http://rrodrickk.github.io/blog">blog</a> //
-                <a href="https://drive.google.com/file/d/17CnAyDkTUckt3jNoQjzsUmVlzP1jdp6t/view?usp=sharing">curriculum
-                    vitae</a> //
-                <a href="http://rrodrickk.github.io/contact.html">contact</a>
-            </div>
+        <div class="nav-links">
+            <a href="http://rrodrickk.github.io/about.html">about</a> //
+            <a href="http://rrodrickk.github.io/blog">blog</a> //
+            <a href="https://drive.google.com/file/d/17CnAyDkTUckt3jNoQjzsUmVlzP1jdp6t/view?usp=sharing">curriculum
+                vitae</a> //
+            <a href="http://rrodrickk.github.io/contact.html">contact</a>
         </div>
     </div>
-        <script>
-            let options = {
-                timeZone: 'Europe/Lisbon',
-                hour: 'numeric',
-                minute: 'numeric',
-                second: 'numeric',
-            },
-                formatter = new Intl.DateTimeFormat([], options);
 
-            setInterval(() => {
-                document.querySelector("#time").innerText = formatter.format(new Date());
-            }, 1000);
-        </script>
-        <script>
-            ; (function () {
-                const DURATION = 800; // match 0.8s
+    <script>
+        let options = {
+            timeZone: 'Europe/Lisbon',
+            hour: 'numeric',
+            minute: 'numeric',
+            second: 'numeric',
+        },
+            formatter = new Intl.DateTimeFormat([], options);
 
-                // on load, determine direction and play the "enter" animation
-                const dir = sessionStorage.getItem('transition') || 'forward';
-                document.documentElement.classList.add(dir + '-enter');
-                requestAnimationFrame(() => {
-                    document.documentElement.classList.add('entering');
-                });
-                setTimeout(() => {
-                    document.documentElement.classList.remove(dir + '-enter', 'entering');
-                    sessionStorage.removeItem('transition');
-                }, DURATION);
-
-                // intercept all link clicks
-                document.body.addEventListener('click', e => {
-                    const a = e.target.closest('a');
-                    if (!a || a.target === ' _blank' || a.href.indexOf(location.origin) !== 0) return;
-                    e.preventDefault();
-
-                    // decide forward vs back
-                    const outDir = a.classList.contains('back-button') ? 'back' : 'forward';
-                    sessionStorage.setItem('transition', outDir);
-
-                    // play exit animation
-                    document.documentElement.classList.add(outDir + '-exit');
-                    requestAnimationFrame(() => {
-                        document.documentElement.classList.add('exiting');
-                    });
-
-                    setTimeout(() => {
-                        window.location = a.href;
-                    }, DURATION);
-                });
-            })();
-        </script>
-        <script>
-            ; (function () {
-                const D = 800;
-
-                // 1) determine forward/back
-                const dir = sessionStorage.getItem('transition') || 'forward';
-
-                // 2) set up overlay for the incoming BG
-                const overlay = document.getElementById('bg-overlay');
-                const newBg = getComputedStyle(document.body)
-                    .getPropertyValue('--bg-url');
-                // you will define --bg-url inline on <body>
-                overlay.style.backgroundImage = newBg;
-
-                // 3) enter animation: slide + fade bg‐overlay & content
-                document.documentElement.classList.add(dir + '-enter');
-                requestAnimationFrame(() => {
-                    document.documentElement.classList.add('entering');
-                    overlay.style.opacity = 1;
-                    document.getElementById('content').style.opacity = 1;
-                });
-
-                setTimeout(() => {
-                    document.documentElement.classList.remove(dir + '-enter', 'entering');
-                    sessionStorage.removeItem('transition');
-                }, D);
-
-                // 4) intercept links
-                document.body.addEventListener('click', e => {
-                    const a = e.target.closest('a');
-                    if (!a || a.target || a.href.indexOf(location.origin) !== 0) return;
-                    e.preventDefault();
-
-                    const isBack = a.classList.contains('back-button');
-                    const out = isBack ? 'back' : 'forward';
-                    sessionStorage.setItem('transition', out);
-
-                    // exit animation
-                    document.documentElement.classList.add(out + '-exit');
-                    overlay.style.opacity = 0;                 // fade old bg
-                    document.getElementById('content').style.opacity = 0; // fade content
-                    requestAnimationFrame(() => {
-                        document.documentElement.classList.add('exiting');
-                    });
-
-                    setTimeout(() => window.location = a.href, D);
-                });
-            })();
-        </script>
-
+        setInterval(() => {
+            document.querySelector("#time").innerText = formatter.format(new Date());
+        }, 1000);
+    </script>
     
 </body>
 
