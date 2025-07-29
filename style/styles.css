@@ -1,7 +1,7 @@
 /* Reset + Base Styles */
 
 html {
-  background-color: #000;
+  background-color: #000000;
 }
 
 * {
@@ -14,7 +14,7 @@ body {
   margin: 0;
   min-height: 100vh;
   font-family: 'Space Grotesk', sans-serif;
-  color: #000000;
+  color: #fff0f0;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center center;
@@ -128,8 +128,12 @@ body {
 
 .container-blog-index {
   max-width: 900px;
-  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 5rem 1rem;
+  min-height: 100vh;
+  flex-direction: column;
 }
 
 .quote {
@@ -257,7 +261,6 @@ body {
   transition: opacity 0.5s ease;
 }
 
-
 body.fade-in {
   opacity: 1;
 }
@@ -265,3 +268,5 @@ body.fade-in {
 body.fade-out {
   opacity: 0;
 }
+
+
