@@ -278,6 +278,33 @@ body.site.page { /* includes both common class variations just in case */
   position: relative;
   z-index: 1;            /* bring content above the canvas */
 }
+
+/* preview for blog index */
+/* small preview button next to post links */
+.preview-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+  padding: 6px 8px;
+  background: rgba(255,255,255,0.04);
+  color: #ffd38a;
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  line-height: 1;
+}
+.preview-btn:hover {
+  transform: translateY(-1px);
+  background: rgba(255,255,255,0.06);
+}
+.preview-btn:focus {
+  outline: 2px solid rgba(255,255,255,0.12);
+  outline-offset: 2px;
+}
+
+
 .fade-out {
   animation: fadeOut 0.5s ease forwards;
 }
