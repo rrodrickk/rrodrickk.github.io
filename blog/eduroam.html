@@ -11,8 +11,11 @@
    <link href="https://fonts.googleapis.com/css2?family=Bitcount+Single:wght@100..900&display=swap" rel="stylesheet">
    <link href="../style/styles.css" rel="stylesheet">
 </head>
-<body class="site-page">
+
+<body>
    <script src="../style/fade.js"></script>
+   <canvas id="res-canvas" aria-hidden="true"></canvas>
+   <script type="module" src="../style/perlin.js"></script>
    <a href="./" class="back-button">←</a>
    <div class="guide-container">
       <div class="content-wrapper-guide">
@@ -20,11 +23,13 @@
          <div class="guide-text">
             <h2 class="title">Linux (Arch) Setup</h2>
             <ol>
-               <li><h3>Get the CA certificate from your school</h3>
+               <li>
+                  <h3>Get the CA certificate from your school</h3>
                   This process seems different for every school. For me, I had to go to my school's onboarding
                   website, then downloaded it from there.
                </li>
-               <li><h3>Connect to eduroam</h3>
+               <li>
+                  <h3>Connect to eduroam</h3>
                   <ol type="a">
                      <li>Connect to hidden wifi network -> ssid -> eduroam</li>
                      <li>Connect with the following settings—
@@ -47,21 +52,25 @@
             <div class="divider"></div>
 
             <h2 class="title">Boox Devices Setup</h2>
-            <p>For whatever reason my boox go 10.3 don't seem to work with my university's wifi, as such I resort to eduroam
+            <p>For whatever reason my boox go 10.3 don't seem to work with my university's wifi, as such I resort to
+               eduroam
             </p>
             <ol>
-               <li><h3>Get the CA certificate from your school</h3>
+               <li>
+                  <h3>Get the CA certificate from your school</h3>
                   This process seems different for every school. For me, I had to go to my school's onboarding
                   website, then downloaded it from there.
                </li>
-               <li><h3>Install the CA certificate on Android</h3>
+               <li>
+                  <h3>Install the CA certificate on Android</h3>
                   <ol type="a">
                      <li>Install the "Android Hidden Settings" app available in the Play Store</li>
                      <li>Android Hidden Settings, Settings -> Security -> Encryption & Credentials -> Install from
                         Storage -> Select the CA certificate -> Name it</li>
                   </ol>
                </li>
-               <li><h3>Connect to eduroam</h3>
+               <li>
+                  <h3>Connect to eduroam</h3>
                   <ol type="a">
                      <li>Home -> Settings -> (+) at the top right -> ssid: eduroam, security -> WPA/WPA2/WPA3-Enterprise
                      </li>
@@ -82,5 +91,5 @@
       </div>
    </div>
 </body>
-</html>
 
+</html>

@@ -239,10 +239,45 @@ body.home-page {
   background-image: url('https://i.imgur.com/Vsa9E0Y.png');
 }
 
-body.site-page {
-  background-image: url('../flowtopo.gif');
+body.site-page,
+body.site.page { /* includes both common class variations just in case */
+  background-image: none !important;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center center;
+  background-size: cover;
 }
 
+/* Full-viewport Perlin canvas used as the animated background.
+   The element must exist in the HTML: <canvas id="res-canvas"></canvas>
+*/
+#res-canvas {
+  position: fixed;
+  inset: 0;               /* top:0; right:0; bottom:0; left:0 */
+  width: 100vw;
+  height: 100vh;
+  display: block;
+  z-index: 0;             /* behind page content */
+  pointer-events: none;   /* doesn't steal clicks; toggle from JS to enable interaction */
+  user-select: none;
+  touch-action: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  will-change: transform;
+  background: transparent; /* canvas drawing controlled by JS */
+}
+
+/* Ensure your content is above the canvas */
+.site-content,
+.container,
+.content-wrapper,
+.content-wrapper-guide,
+.container-blog-index,
+.content-wrapper-guide,
+.content-wrapper {
+  position: relative;
+  z-index: 1;            /* bring content above the canvas */
+}
 .fade-out {
   animation: fadeOut 0.5s ease forwards;
 }
