@@ -1,20 +1,19 @@
 /**
- * perlin.js
- * Perlin marching-squares adapted to be a full-viewport background.
- * - Default: non-interactive background (pointer-events:none).
- * - Toggle control in page toggles interaction on/off.
+ * perlin.js — mouse-responsive Perlin marching-squares background
+ * - Uses window pointer/touch events so it reacts even when canvas has pointer-events:none.
+ * - Keeps canvas non-blocking for your UI.
  */
 
 import * as ChriscoursesPerlinNoise from 'https://esm.sh/@chriscourses/perlin-noise';
 
 // CONFIG
-let showFPS = true;
-let MAX_FPS = 0; // 0 = uncapped
+let showFPS = false;
+let MAX_FPS = 144; // 0 = uncapped
 let thresholdIncrement = 3;
-let thickLineThresholdMultiple = 3;
-let res = 4;
+let thickLineThresholdMultiple = 1;
+let res = 18;
 let baseZOffset = 0.0015;
-let lineColor = '#EDEDED80';
+let lineColor = '#a9680094';
 let backgroundColor = '#000000';
 
 let canvas;
@@ -34,7 +33,8 @@ let mouseDown = false;
 let lastFrameTime = 0;
 let fpsSamples = [];
 
-let interactive = false; // background default: non interactive
+// make interactive by default; background usually has pointer-events:none in CSS
+let interactive = true;
 
 // Accessibility: if user prefers reduced motion, we won't animate
 const prefersReducedMotion = window.matchMedia &&
@@ -43,6 +43,7 @@ const prefersReducedMotion = window.matchMedia &&
 document.addEventListener('DOMContentLoaded', () => {
   canvas = document.getElementById('res-canvas');
   fpsCountEl = document.getElementById('fps-count');
+
   if (!canvas) {
     console.error('perlin: no canvas with id=res-canvas found');
     return;
@@ -53,24 +54,13 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  // toggle button (if present)
-  const toggleBtn = document.getElementById('toggle-interaction');
-  if (toggleBtn) {
-    toggleBtn.addEventListener('click', () => {
-      interactive = !interactive;
-      canvas.style.pointerEvents = interactive ? 'auto' : 'none';
-      toggleBtn.setAttribute('aria-pressed', interactive ? 'true' : 'false');
-      // when enabling interaction, show small hint by briefly enabling pointer capture behavior
-    });
-  }
-
   setupEvents();
   resizeCanvas();
 
   if (!prefersReducedMotion) {
     requestAnimationFrame(loop);
   } else {
-    // still draw one static frame
+    // draw one static frame for reduced-motion users
     zOffset += baseZOffset;
     generateNoise();
     render();
@@ -79,44 +69,51 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function setupEvents() {
+  // handle resizing
   window.addEventListener('resize', resizeCanvas);
 
-  // pointer events only matter when interactive is true (canvas pointer-events toggled)
-  canvas.addEventListener('pointermove', (e) => {
+  // Track pointer move globally so we react even if the canvas is behind other elements.
+  // Use clientX/Y relative to canvas bounding rect.
+  window.addEventListener('pointermove', (e) => {
+    if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
     mousePos.x = e.clientX - rect.left;
     mousePos.y = e.clientY - rect.top;
   });
-  canvas.addEventListener('pointerdown', (e) => {
-    if (!interactive) return;
+
+  // pointerdown/up globally capture clicks/touches anywhere on page
+  window.addEventListener('pointerdown', (e) => {
     mouseDown = true;
-    try { canvas.setPointerCapture(e.pointerId); } catch (err) {}
+    // update pos immediately
+    if (canvas) {
+      const rect = canvas.getBoundingClientRect();
+      mousePos.x = e.clientX - rect.left;
+      mousePos.y = e.clientY - rect.top;
+    }
   });
-  canvas.addEventListener('pointerup', (e) => {
-    if (!interactive) return;
+  window.addEventListener('pointerup', () => {
     mouseDown = false;
-    try { canvas.releasePointerCapture(e.pointerId); } catch (err) {}
-  });
-  canvas.addEventListener('pointerleave', () => {
-    mouseDown = false;
-    mousePos = { x: -999, y: -999 };
   });
 
-  // touch fallback
-  canvas.addEventListener('touchmove', (e) => {
-    if (!interactive) return;
-    e.preventDefault();
+  // touch fallback for some older browsers (touchmove gives multiple touches)
+  window.addEventListener('touchmove', (e) => {
+    if (!canvas) return;
+    // prefer first touch
+    const t = e.touches && e.touches[0];
+    if (!t) return;
     const rect = canvas.getBoundingClientRect();
-    const t = e.touches[0];
     mousePos.x = t.clientX - rect.left;
     mousePos.y = t.clientY - rect.top;
+    // treat touch as "mouseDown" while moving
     mouseDown = true;
-  }, { passive: false });
-  canvas.addEventListener('touchend', () => { if (interactive) mouseDown = false; });
+  }, { passive: true });
+
+  window.addEventListener('touchend', () => {
+    mouseDown = false;
+  });
 }
 
 function resizeCanvas() {
-  // Full viewport background
   const cssWidth = window.innerWidth;
   const cssHeight = window.innerHeight;
   const dpr = Math.max(window.devicePixelRatio || 1, 1);
@@ -155,7 +152,6 @@ function loop(time) {
     lastFrameTime = time;
   }
 
-  // update FPS counter
   if (showFPS && fpsCountEl) {
     fpsSamples.push(dt);
     if (fpsSamples.length > 60) fpsSamples.shift();
@@ -170,8 +166,9 @@ function loop(time) {
 }
 
 function update() {
-  // only apply mouse influence if interactive mode is enabled
-  if (interactive && mouseDown) {
+  // apply mouse influence when interactive is true and mouse has valid coordinates
+  if (interactive && mousePos.x !== -99 && mousePos.y !== -99) {
+    // apply ripple every frame — lighter for move, stronger when mouse down
     mouseOffset();
   }
 
@@ -180,7 +177,6 @@ function update() {
 }
 
 function render() {
-  // clear background (use CSS pixels)
   ctx.fillStyle = backgroundColor;
   ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
 
@@ -210,7 +206,7 @@ function generateNoise() {
       if (n < noiseMin) noiseMin = n;
       if (n > noiseMax) noiseMax = n;
       if (zBoostValues[y]?.[x] > 0) {
-        zBoostValues[y][x] *= 0.99;
+        zBoostValues[y][x] *= 0.98; // slightly faster decay for responsiveness
         if (zBoostValues[y][x] < 1e-6) zBoostValues[y][x] = 0;
       }
     }
@@ -218,11 +214,15 @@ function generateNoise() {
 }
 
 function mouseOffset() {
+  // compute cell under pointer
   const xCell = Math.floor(mousePos.x / res);
   const yCell = Math.floor(mousePos.y / res);
   if (xCell < 0 || yCell < 0 || yCell >= rows || xCell > cols) return;
 
-  const incrementValue = 0.012;
+  // different strength depending on whether pointer is pressed
+  const baseIncrement = 0.01;
+  const pressMultiplier = mouseDown ? 2.8 : 0.9;
+  const incrementValue = baseIncrement * pressMultiplier;
   const radius = 6;
 
   for (let j = -radius; j <= radius; j++) {
