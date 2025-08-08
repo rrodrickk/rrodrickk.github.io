@@ -128,6 +128,7 @@ body {
 
 .container-blog-index {
   max-width: 900px;
+  margin: 0 auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -239,7 +240,7 @@ body.home-page {
 }
 
 body.site-page {
-  background-image: url('https://i.imgur.com/cBK5rMJ.png');
+  background-image: url('../flowtopo.gif');
 }
 
 .fade-out {
