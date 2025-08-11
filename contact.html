@@ -14,38 +14,10 @@
 </head>
 
 <body>
-  
   <script src="./style/fade.js"></script>
   <canvas id="res-canvas" aria-hidden="true"></canvas>
   <script type="module" src="./style/perlin.js"></script>
-  <a href="../" class="back-button">←</a>
-  <script>
-    (function () {
-      // 1) Mark the page as ready for fading
-      document.documentElement.classList.add('fade-ready');
-
-      // 2) On page load, add "loaded" to fade in
-      window.addEventListener('load', () => {
-        document.documentElement.classList.add('loaded');
-      });
-
-      // 3) Intercept all internal link clicks
-      document.body.addEventListener('click', e => {
-        // only handle <a> tags with same‑origin hrefs
-        const a = e.target.closest('a');
-        if (!a || a.target === '_blank' || a.href.indexOf(location.origin) !== 0) return;
-        e.preventDefault();
-
-        // fade-out
-        document.documentElement.classList.add('fading');
-
-        // after the transition, go to the link
-        setTimeout(() => {
-          window.location = a.href;
-        }, 400); // match your CSS duration (0.4s)
-      });
-    })();
-  </script>
+  <a href="./" class="back-button">←</a>
   <div class="container">
     <section class="content-wrapper">
       <img src="./favicon.png" alt="Contact Icon" style="width: 250px; height: 250px; margin-bottom: 1rem;">

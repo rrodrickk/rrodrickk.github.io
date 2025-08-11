@@ -53,7 +53,6 @@
     el.querySelectorAll('script, style, link').forEach(n => n.remove());
     // remove on* attributes
     const walker = document.createTreeWalker(el, NodeFilter.SHOW_ELEMENT, null, false);
-    const toStrip = [];
     while (walker.nextNode()) {
       const node = walker.currentNode;
       [...node.attributes].forEach(attr => {

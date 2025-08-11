@@ -9,9 +9,9 @@ import * as ChriscoursesPerlinNoise from 'https://esm.sh/@chriscourses/perlin-no
 // CONFIG
 let showFPS = false;
 let MAX_FPS = 144; // 0 = uncapped
-let thresholdIncrement = 3;
-let thickLineThresholdMultiple = 1;
-let res = 18;
+let thresholdIncrement = 4;
+let thickLineThresholdMultiple = 26;
+let res = 11;
 let baseZOffset = 0.0015;
 let lineColor = '#a9680094';
 let backgroundColor = '#000000';
