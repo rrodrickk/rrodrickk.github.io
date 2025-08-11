@@ -42,16 +42,34 @@
             </tr>
             <tr>
                 <td>
+                    <a class="guide-text" href="creativeblock.html" class="post-link">
+                        <span>📄</span> creative-block.html
+                    </a>
+                    <button class="preview-btn" data-url="creative-block.html"
+                        aria-label="Preview creative-block">⬇️</button>
+                    <div class="preview-content" style="display: none;">
+                        <p class="preview-text">This blog post outlines the Bricks → Walls → Houses creative method for
+                            overcoming blank canvas syndrome, organizing ideas, and building a consistent, low-pressure
+                            workflow adaptable to music, art, and writing.</p>
+                    </div>
+
+                </td>
+                <td>8 kB</td>
+                <td>21-Aug-2025 16:47</td>
+            </tr>
+            <tr>
+                <td>
                     <a class="guide-text" href="study-method.html" class="post-link">
                         <span>📄</span> study-method.html
                     </a>
                     <button class="preview-btn" data-url="study-method.html"
                         aria-label="Preview study method">⬇️</button>
                     <div class="preview-content" style="display: none;">
-                        <p class="preview-text">Practical strategies for effective learning, including timely review, maintaining productivity, and avoiding procrastination.</p>
+                        <p class="preview-text">Practical strategies for effective learning, including timely review,
+                            maintaining productivity, and avoiding procrastination.</p>
                     </div>
                 </td>
-                <td>4.6 kB</td>
+                <td>4.7kB</td>
                 <td>29-Jul-2025 19:52</td>
             </tr>
             <tr>
@@ -61,11 +79,13 @@
                     </a>
                     <button class="preview-btn" data-url="eduroam.html" aria-label="Preview eduroam">⬇️</button>
                     <div class="preview-content" style="display: none;">
-                        <p class="preview-text">Step-by-step instructions for connecting to eduroam WiFi on Arch Linux and Android/Boox devices, including certificate installation and authentication settings.</p>
+                        <p class="preview-text">Step-by-step instructions for connecting to eduroam WiFi on Arch Linux
+                            and Android/Boox devices, including certificate installation and authentication settings.
+                        </p>
                     </div>
 
                 </td>
-                <td>4.0 kB</td>
+                <td>4.1 kB</td>
                 <td>25-Jul-2025 10:14</td>
             </tr>
         </tbody>
@@ -74,16 +94,16 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const previewBtns = document.querySelectorAll('.preview-btn');
-        
+
         previewBtns.forEach(previewBtn => {
             const previewContent = previewBtn.nextElementSibling;
             const postUrl = previewBtn.getAttribute('data-url');
-            
+
             previewBtn.addEventListener('click', function () {
                 if (previewContent.style.display === 'none') {
                     previewContent.style.display = 'block';
                     previewBtn.textContent = '⬆️';
-                    
+
                     // Load content if not already loaded
                     if (!previewContent.querySelector('.preview-text').textContent.trim()) {
                         fetch(postUrl)
