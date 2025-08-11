@@ -42,9 +42,13 @@
             </tr>
             <tr>
                 <td>
-                    <a class="guide-text" href="study-method.html">
+                    <a class="guide-text" href="study-method.html" class="post-link">
                         <span>📄</span> study-method.html
                     </a>
+                    <button class="preview-btn" data-url="study-method.html" aria-label="Preview study method">⬇️</button>
+                    <div class="preview-content" style="display: none;">
+                        <p class="preview-text"></p>
+                    </div>
                 </td>
                 <td>4.6 kB</td>
                 <td>29-Jul-2025 19:52</td>
@@ -54,11 +58,9 @@
                     <a class="guide-text" href="eduroam.html" class="post-link">
                         <span>📄</span> eduroam.html
                     </a>
-                    <button class="preview-btn" data-url="eduroam.html"
-                        aria-label="Preview eduroam">🔍</button>
+                    <button class="preview-btn" data-url="eduroam.html" aria-label="Preview eduroam">⬇️</button>
                     <div class="preview-content" style="display: none;">
                         <p class="preview-text"></p>
-                        <a href="eduroam.html" class="read-more">Read more...</a>
                     </div>
                 </td>
                 <td>4.0 kB</td>
@@ -68,41 +70,40 @@
     </table>
 </div>
 <script>
-document.querySelectorAll('.preview-btn').forEach(button => {
-  button.addEventListener('click', async () => {
-    const url = button.getAttribute('data-url');
-    const previewDiv = button.nextElementSibling; // .preview-content div
-    const previewText = previewDiv.querySelector('.preview-text');
+    document.querySelectorAll('.preview-btn').forEach(button => {
+        button.addEventListener('click', async () => {
+            const url = button.getAttribute('data-url');
+            const previewDiv = button.nextElementSibling; // .preview-content div
+            const previewText = previewDiv.querySelector('.preview-text');
 
-    // Toggle preview visibility
-    if (previewDiv.style.display === 'block') {
-      previewDiv.style.display = 'none';
-      return;
-    }
+            // Toggle preview visibility
+            if (previewDiv.style.display === 'block') {
+                previewDiv.style.display = 'none';
+                return;
+            }
 
-    // Fetch the HTML content
-    try {
-      const response = await fetch(url);
-      if (!response.ok) throw new Error('Network response was not ok');
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('Network response was not ok');
 
-      const text = await response.text();
+                const text = await response.text();
 
-      // Extract first paragraph from the fetched HTML
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(text, 'text/html');
-      const firstParagraph = doc.querySelector('p');
+                // Extract first paragraph from the fetched HTML
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(text, 'text/html');
+                const firstParagraph = doc.querySelector('p');
 
-      previewText.textContent = firstParagraph ? firstParagraph.textContent : 'No preview available.';
+                previewText.textContent = firstParagraph ? firstParagraph.textContent : 'No preview available.';
 
-      // Show the preview
-      previewDiv.style.display = 'block';
-    } catch (error) {
-      previewText.textContent = 'Error loading preview.';
-      previewDiv.style.display = 'block';
-      console.error('Failed to fetch preview:', error);
-    }
-  });
-});
+                // Show the preview
+                previewDiv.style.display = 'block';
+            } catch (error) {
+                previewText.textContent = 'Error loading preview.';
+                previewDiv.style.display = 'block';
+                console.error('Failed to fetch preview:', error);
+            }
+        });
+    });
 </script>
 
 </body>
