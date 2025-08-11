@@ -67,6 +67,44 @@
         </tbody>
     </table>
 </div>
+<script>
+document.querySelectorAll('.preview-btn').forEach(button => {
+  button.addEventListener('click', async () => {
+    const url = button.getAttribute('data-url');
+    const previewDiv = button.nextElementSibling; // .preview-content div
+    const previewText = previewDiv.querySelector('.preview-text');
+
+    // Toggle preview visibility
+    if (previewDiv.style.display === 'block') {
+      previewDiv.style.display = 'none';
+      return;
+    }
+
+    // Fetch the HTML content
+    try {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error('Network response was not ok');
+
+      const text = await response.text();
+
+      // Extract first paragraph from the fetched HTML
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(text, 'text/html');
+      const firstParagraph = doc.querySelector('p');
+
+      previewText.textContent = firstParagraph ? firstParagraph.textContent : 'No preview available.';
+
+      // Show the preview
+      previewDiv.style.display = 'block';
+    } catch (error) {
+      previewText.textContent = 'Error loading preview.';
+      previewDiv.style.display = 'block';
+      console.error('Failed to fetch preview:', error);
+    }
+  });
+});
+</script>
+
 </body>
 
 </html>
