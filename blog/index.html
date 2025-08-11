@@ -45,9 +45,10 @@
                     <a class="guide-text" href="study-method.html" class="post-link">
                         <span>📄</span> study-method.html
                     </a>
-                    <button class="preview-btn" data-url="study-method.html" aria-label="Preview study method">⬇️</button>
+                    <button class="preview-btn" data-url="study-method.html"
+                        aria-label="Preview study method">⬇️</button>
                     <div class="preview-content" style="display: none;">
-                        <p class="preview-text"></p>
+                        <p class="preview-text">Practical strategies for effective learning, including timely review, maintaining productivity, and avoiding procrastination.</p>
                     </div>
                 </td>
                 <td>4.6 kB</td>
@@ -60,8 +61,9 @@
                     </a>
                     <button class="preview-btn" data-url="eduroam.html" aria-label="Preview eduroam">⬇️</button>
                     <div class="preview-content" style="display: none;">
-                        <p class="preview-text"></p>
+                        <p class="preview-text">Step-by-step instructions for connecting to eduroam WiFi on Arch Linux and Android/Boox devices, including certificate installation and authentication settings.</p>
                     </div>
+
                 </td>
                 <td>4.0 kB</td>
                 <td>25-Jul-2025 10:14</td>
@@ -70,42 +72,40 @@
     </table>
 </div>
 <script>
-    document.querySelectorAll('.preview-btn').forEach(button => {
-        button.addEventListener('click', async () => {
-            const url = button.getAttribute('data-url');
-            const previewDiv = button.nextElementSibling; // .preview-content div
-            const previewText = previewDiv.querySelector('.preview-text');
-
-            // Toggle preview visibility
-            if (previewDiv.style.display === 'block') {
-                previewDiv.style.display = 'none';
-                return;
-            }
-
-            try {
-                const response = await fetch(url);
-                if (!response.ok) throw new Error('Network response was not ok');
-
-                const text = await response.text();
-
-                // Extract first paragraph from the fetched HTML
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(text, 'text/html');
-                const firstParagraph = doc.querySelector('p');
-
-                previewText.textContent = firstParagraph ? firstParagraph.textContent : 'No preview available.';
-
-                // Show the preview
-                previewDiv.style.display = 'block';
-            } catch (error) {
-                previewText.textContent = 'Error loading preview.';
-                previewDiv.style.display = 'block';
-                console.error('Failed to fetch preview:', error);
-            }
+    document.addEventListener('DOMContentLoaded', function () {
+        const previewBtns = document.querySelectorAll('.preview-btn');
+        
+        previewBtns.forEach(previewBtn => {
+            const previewContent = previewBtn.nextElementSibling;
+            const postUrl = previewBtn.getAttribute('data-url');
+            
+            previewBtn.addEventListener('click', function () {
+                if (previewContent.style.display === 'none') {
+                    previewContent.style.display = 'block';
+                    previewBtn.textContent = '⬆️';
+                    
+                    // Load content if not already loaded
+                    if (!previewContent.querySelector('.preview-text').textContent.trim()) {
+                        fetch(postUrl)
+                            .then(response => response.text())
+                            .then(html => {
+                                const parser = new DOMParser();
+                                const doc = parser.parseFromString(html, 'text/html');
+                                const content = doc.querySelector('body').textContent.substring(0, 200) + '...';
+                                previewContent.querySelector('.preview-text').textContent = content;
+                            })
+                            .catch(error => {
+                                console.error('Error loading preview:', error);
+                            });
+                    }
+                } else {
+                    previewContent.style.display = 'none';
+                    previewBtn.textContent = '⬇️';
+                }
+            });
         });
     });
 </script>
-
 </body>
 
 </html>
