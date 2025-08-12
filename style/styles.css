@@ -236,7 +236,7 @@ tr:hover {
 
 /* Background Images for Different Pages */
 body.home-page {
-  background-image: url('https://i.imgur.com/Vsa9E0Y.png');
+  background-image: url("../assets/photos/background.png");
 }
 
 body.site-page,
