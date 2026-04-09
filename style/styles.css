@@ -403,6 +403,51 @@ body.fade-out {
   margin: 0 1rem 1rem 1rem;
 }
 
+.projects-intro {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem;
+  color: #e2e2e2;
+  margin-top: -3rem;
+}
+
+.project-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0 1rem 0.8rem 1rem;
+  color: #d7d7d7;
+  font-size: 0.92rem;
+}
+
+.project-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.project-badge.active {
+  background: rgba(80, 192, 120, 0.2);
+  color: #76de95;
+  border: 1px solid rgba(118, 222, 149, 0.35);
+}
+
+.project-badge.maintain {
+  background: rgba(224, 172, 79, 0.2);
+  color: #f5ca7d;
+  border: 1px solid rgba(245, 202, 125, 0.35);
+}
+
+.project-badge.archive {
+  background: rgba(158, 158, 158, 0.2);
+  color: #d5d5d5;
+  border: 1px solid rgba(213, 213, 213, 0.35);
+}
+
 .project-buttons {
   display: flex;
   gap: 0.5rem;
