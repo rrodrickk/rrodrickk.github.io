@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rodrigo Silva — CV</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0f0f;
+    --ink-mid: #3a3a3a;
+    --ink-light: #7a7a7a;
+    --rule: #d0cec9;
+    --accent: #c0392b;
+    --bg: #faf8f5;
+    --paper: #ffffff;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { font-size: 16px; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'EB Garamond', Georgia, serif;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 40px auto;
+    background: var(--paper);
+    padding: 18mm 18mm 18mm 18mm;
+    box-shadow: 0 4px 40px rgba(0,0,0,0.10), 0 1px 8px rgba(0,0,0,0.06);
+  }
+
+  /* ── HEADER ── */
+  header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 12px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--ink);
+    margin-bottom: 6px;
+  }
+
+  .name {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 42px;
+    font-weight: 500;
+    letter-spacing: -1px;
+    line-height: 1;
+    color: var(--ink);
+  }
+
+  .name span {
+    color: var(--accent);
+  }
+
+  .tagline {
+    font-family: 'DM Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-top: 6px;
+  }
+
+  .contacts {
+    text-align: right;
+    font-family: 'DM Mono', monospace;
+    font-size: 8.8px;
+    color: var(--ink-mid);
+    line-height: 1.9;
+  }
+
+  .contacts a { color: var(--ink-mid); text-decoration: none; }
+  .contacts a:hover { color: var(--accent); }
+
+  .download-btn {
+    display: inline-block;
+    margin-top: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 8.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 3px 8px;
+    border-radius: 2px;
+    text-decoration: none;
+  }
+
+  .download-btn:hover {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  /* ── STRIPE ── */
+  .stripe {
+    height: 3px;
+    background: var(--accent);
+    width: 48px;
+    margin-bottom: 20px;
+  }
+
+  /* ── TWO-COL LAYOUT ── */
+  .body {
+    display: grid;
+    grid-template-columns: 148px 1fr;
+    gap: 0 28px;
+  }
+
+  /* ── SECTION LABEL ── */
+  .label {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    padding-top: 2px;
+    text-align: right;
+    line-height: 1.6;
+    border-right: 1px solid var(--rule);
+    padding-right: 16px;
+  }
+
+  .content {
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 20px;
+  }
+
+  .row-pair:last-child .content {
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+
+  /* ── INTRO ── */
+  .intro-text {
+    font-size: 14.5px;
+    line-height: 1.65;
+    color: var(--ink-mid);
+    font-style: italic;
+  }
+
+  /* ── ENTRY ── */
+  .entry { margin-bottom: 13px; }
+  .entry:last-child { margin-bottom: 0; }
+
+  .entry-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  .entry-title {
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+
+  .entry-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 8.5px;
+    color: var(--ink-light);
+    white-space: nowrap;
+    letter-spacing: 0.06em;
+  }
+
+  .entry-sub {
+    font-size: 12.5px;
+    color: var(--ink-light);
+    font-style: italic;
+    margin-top: 1px;
+    margin-bottom: 4px;
+  }
+
+  .entry-body {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ink-mid);
+  }
+
+  .entry-body ul {
+    padding-left: 14px;
+    margin-top: 3px;
+  }
+
+  .entry-body li {
+    margin-bottom: 2px;
+  }
+
+  .badge {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 7.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--accent);
+    color: #fff;
+    padding: 1px 6px;
+    border-radius: 2px;
+    margin-left: 6px;
+    vertical-align: middle;
+    position: relative;
+    top: -1px;
+  }
+
+  /* ── SKILLS GRID ── */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px 16px;
+  }
+
+  .skill-group-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+
+  .skill-tags {
+    font-size: 12.5px;
+    line-height: 1.7;
+    color: var(--ink-mid);
+  }
+
+  /* ── LINK CHIPS ── */
+  .chip {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: var(--ink-light);
+    border: 1px solid var(--rule);
+    padding: 2px 7px;
+    border-radius: 2px;
+    margin-right: 5px;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .chip:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ── MISC ── */
+  .row-pair {
+    display: contents;
+  }
+
+  .hobbies {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--ink-mid);
+  }
+
+  @media print {
+    body { background: white; }
+    .page { margin: 0; box-shadow: none; width: 100%; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <header>
+    <div>
+      <div class="name">Rodrigo<span>.</span> Silva</div>
+      <div class="tagline">Software Engineering Student &nbsp;·&nbsp; University of Minho &nbsp;·&nbsp; Braga, Portugal</div>
+    </div>
+    <div class="contacts">
+      <a href="mailto:rodrigo@email.com">rodrigomrsilvaa@gmail.com</a><br>
+      <a href="https://linkedin.com/in/rodrigomrsilvaa">linkedin.com/in/rodrigomrsilvaa</a><br>
+      <a href="https://github.com/rrodrickk">github.com/rrodrickk</a><br>
+      <a href="https://rrodrickk.github.io">rrodrickk.github.io</a><br>
+      <a class="download-btn" href="./Rodrigo%20Silva%20%E2%80%94%20CV.pdf" download>Download PDF</a>
+    </div>
+  </header>
+
+  <div class="stripe"></div>
+
+  <!-- BODY GRID -->
+  <div class="body">
+
+    <!-- ABOUT -->
+    <div class="row-pair">
+      <div class="label">Profile</div>
+      <div class="content">
+        <p class="intro-text">
+          Second-year Software Engineering student at Universidade do Minho with a strong interest in AI, machine learning, and full-stack development. I've built and shipped real projects, from hackathon winners to live band institutional websites, and am driven by curiosity, craft and honing to become a better developer and solutions architect. Seeking a summer internship where I can contribute meaningfully and grow alongside experienced engineers.
+        </p>
+      </div>
+    </div>
+
+    <!-- EDUCATION -->
+    <div class="row-pair">
+      <div class="label">Education</div>
+      <div class="content">
+        <div class="entry">
+          <div class="entry-header">
+            <div class="entry-title">BSc Informatics Engineering (Software Engineering)</div>
+            <div class="entry-date">2023 — Present</div>
+          </div>
+          <div class="entry-sub">Universidade do Minho, Braga</div>
+          <div class="entry-body">
+            Core modules in Algorithms & Data Structures, Functional Programming (Haskell), Imperative Programming (C), Logic, Calculus, and Linear Algebra. Currently in 2nd year, targeting a future Master's in Artificial Intelligence &amp; Machine Learning.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECTS -->
+    <div class="row-pair">
+      <div class="label">Projects</div>
+      <div class="content">
+
+        <div class="entry">
+          <div class="entry-header">
+            <div class="entry-title">Geisha Gains <span class="badge">🏆 Uphold Theme Winner</span></div>
+            <div class="entry-date">Jan 2026</div>
+          </div>
+          <div class="entry-sub">BugsByte 2026 Hackathon &nbsp;·&nbsp; <a class="chip" href="https://github.com/rrodrickk/bugsbyte2526">GitHub</a></div>
+          <div class="entry-body">
+            AI-powered crypto trading simulator built with Next.js 14, React, TypeScript, Prisma, PostgreSQL and Tailwind CSS. Integrated NVIDIA NIM (Llama-3 70B) for real-time news analysis and risk profiling. Deployed on Vercel with a full intelligence loop: live news ingestion → AI threat scoring → war room dashboard. Won the Uphold-sponsored theme at the hackathon.
+          </div>
+        </div>
+
+        <div class="entry">
+          <div class="entry-header">
+            <div class="entry-title">Personal Portfolio &amp; Blog</div>
+            <div class="entry-date">2024 — Present</div>
+          </div>
+          <div class="entry-sub">rrodrickk.github.io &nbsp;·&nbsp; <a class="chip" href="https://rrodrickk.github.io">Live</a> <a class="chip" href="https://github.com/rrodrickk/rrodrickk.github.io">GitHub</a></div>
+          <div class="entry-body">
+            Self-designed website with portfolio, technical blog posts (study methods, creative workflow, Linux setup), and live project showcase. Continuously iterated with UI/UX improvements.
+          </div>
+        </div>
+
+        <div class="entry">
+          <div class="entry-header">
+            <div class="entry-title">Solmåne Band Website</div>
+            <div class="entry-date">2026 — Present</div>
+          </div>
+          <div class="entry-sub">solmaneband.github.io &nbsp;·&nbsp; <a class="chip" href="https://solmaneband.github.io">Live</a></div>
+          <div class="entry-body">
+            Official website for the alt-rock band I co-founded, handling design, development, and content.
+          </div>
+        </div>
+
+        <div class="entry">
+          <div class="entry-header">
+            <div class="entry-title">Empire Rush</div>
+            <div class="entry-date">2024</div>
+          </div>
+          <div class="entry-sub">University project &nbsp;·&nbsp; <a class="chip" href="https://github.com/rrodrickk/Empire_Rush-projeto-li12425">GitHub</a></div>
+          <div class="entry-body">
+            Strategy game written in Haskell as part of the 1st-year Functional Programming course. Demonstrates pattern matching, recursion, and pure functional design.
+          </div>
+        </div>
+
+        <div class="entry">
+          <div class="entry-header">
+            <div class="entry-title">Arch Linux Dotfiles</div>
+            <div class="entry-date">2025 — Present</div>
+          </div>
+          <div class="entry-sub"><a class="chip" href="https://github.com/rrodrickk/dotfiles">GitHub</a></div>
+          <div class="entry-body">
+            Custom Arch Linux + Sway WM environment with scripted setup for a streamlined development workflow.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SKILLS -->
+    <div class="row-pair">
+      <div class="label">Skills</div>
+      <div class="content">
+        <div class="skills-grid">
+          <div>
+            <div class="skill-group-title">Languages</div>
+            <div class="skill-tags">Haskell · C · TypeScript · JavaScript · Python · HTML/CSS · SQL</div>
+          </div>
+          <div>
+            <div class="skill-group-title">Frameworks &amp; Tools</div>
+            <div class="skill-tags">Next.js · React · Tailwind CSS · Prisma · PostgreSQL · Docker · Git</div>
+          </div>
+          <div>
+            <div class="skill-group-title">Interests</div>
+            <div class="skill-tags">AI / LLMs · Machine Learning · Linux · Full-Stack Development</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXTRACURRICULAR -->
+    <div class="row-pair">
+      <div class="label">Other</div>
+      <div class="content">
+        <div class="entry">
+          <div class="entry-header">
+            <div class="entry-title">Solmåne — Co-founder &amp; Lead Guitarist</div>
+            <div class="entry-date">2024 — Present</div>
+          </div>
+          <div class="entry-sub">Alt-Rock Band, Braga &nbsp;·&nbsp; Available on Spotify</div>
+          <div class="entry-body">
+            Co-founded, arranges, records, and performs original material. Manages the band's digital presence and website. Studying jazz guitar; influences span neo-soul, blues, and shoegaze.
+          </div>
+        </div>
+        <div class="entry" style="margin-top:10px;">
+          <div class="entry-header">
+            <div class="entry-title">Languages</div>
+          </div>
+          <div class="entry-body">Portuguese (Native) &nbsp;·&nbsp; English (C1)</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end body grid -->
+
+</div><!-- end page -->
+</body>
+</html>
