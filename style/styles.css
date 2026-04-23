@@ -216,19 +216,6 @@ tr:hover {
 
 /* Responsive */
 @media (max-width: 640px) {
-  .name {
-    font-size: 3rem;
-  }
-
-  .subtitle {
-    font-size: 1.25rem;
-    letter-spacing: 3px;
-  }
-
-  .bio {
-    font-size: 1rem;
-  }
-
   .cta-link {
     font-size: 1.2rem;
   }
@@ -239,13 +226,8 @@ body.home-page {
   background-image: url("../assets/photos/background.png");
 }
 
-body.site-page,
-body.site.page { /* includes both common class variations just in case */
+body.site-page {
   background-image: none !important;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-position: center center;
-  background-size: cover;
 }
 
 /* Full-viewport Perlin canvas used as the animated background.
@@ -263,20 +245,17 @@ body.site.page { /* includes both common class variations just in case */
   touch-action: none;
   -webkit-user-select: none;
   -webkit-tap-highlight-color: transparent;
-  will-change: transform;
-  background: transparent; /* canvas drawing controlled by JS */
+  background: transparent;
 }
 
-/* Ensure your content is above the canvas */
+/* Ensure content is above the canvas */
 .site-content,
 .container,
 .content-wrapper,
 .content-wrapper-guide,
-.container-blog-index,
-.content-wrapper-guide,
-.content-wrapper {
+.container-blog-index {
   position: relative;
-  z-index: 1;            /* bring content above the canvas */
+  z-index: 1;
 }
 
 /* preview for blog index */
@@ -304,20 +283,6 @@ body.site.page { /* includes both common class variations just in case */
   outline-offset: 2px;
 }
 
-
-.fade-out {
-  animation: fadeOut 0.5s ease forwards;
-}
-
-@keyframes fadeOut {
-  0% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
-  }
-}
 
 body {
   opacity: 0;

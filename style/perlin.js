@@ -1,340 +1,306 @@
 /**
  * perlin.js — mouse-responsive Perlin marching-squares background
- * - Uses window pointer/touch events so it reacts even when canvas has pointer-events:none.
- * - Keeps canvas non-blocking for your UI.
+ *
+ * Performance notes:
+ *  - Canvas renders at 1x DPR (no retina upscale needed for a background effect).
+ *  - Grid resolution adapts on small screens (coarser = fewer cells = faster).
+ *  - Noise & boost arrays are pre-allocated; no per-frame GC.
+ *  - Animation pauses automatically when the tab is hidden.
+ *  - Resize is debounced to avoid layout thrashing.
  */
 
 import * as ChriscoursesPerlinNoise from 'https://esm.sh/@chriscourses/perlin-noise';
 
-// CONFIG
-let showFPS = false;
-let MAX_FPS = 144; // 0 = uncapped
-let thresholdIncrement = 4;
-let thickLineThresholdMultiple = 26;
-let res = 11;
-let baseZOffset = 0.0015;
-let lineColor = '#a9680094';
-let backgroundColor = '#000000';
+// ── CONFIG ──────────────────────────────────────────────────────
+const THRESHOLD_INC    = 4;
+const THICK_MULTIPLE   = 26;
+const BASE_Z_OFFSET    = 0.0015;
+const LINE_COLOR       = '#a9680094';
+const BG_COLOR         = '#000000';
+const NOISE_SCALE      = 0.02;
+const BOOST_DECAY      = 0.98;
+const MOUSE_RADIUS     = 6;
+const MOUSE_BASE_INC   = 0.01;
+const MOUSE_PRESS_MULT = 2.8;
+const MOUSE_MOVE_MULT  = 0.9;
+// Adaptive cell size: coarser on small screens
+const RES = window.innerWidth < 600 ? 16 : 11;
 
-let canvas;
-let ctx;
-let fpsCountEl;
-let frameValues = [];
-let inputValues = [];
-let zBoostValues = [];
-let currentThreshold = 0;
-let cols = 0;
-let rows = 0;
+// ── STATE ───────────────────────────────────────────────────────
+let canvas, ctx;
+let cols = 0, rows = 0;
 let zOffset = 0;
-let noiseMin = 100;
-let noiseMax = 0;
+let noiseMin = 100, noiseMax = 0;
+let currentThreshold = 0;
 let mousePos = { x: -999, y: -999 };
 let mouseDown = false;
-let lastFrameTime = 0;
-let fpsSamples = [];
+let paused = false;
+let animId = 0;
 
-// make interactive by default; background usually has pointer-events:none in CSS
-let interactive = true;
+// Pre-allocated 2-D arrays (filled on resize)
+let inputValues  = [];
+let zBoostValues = [];
 
-// Accessibility: if user prefers reduced motion, we won't animate
-const prefersReducedMotion = window.matchMedia &&
-  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+// Resize debounce
+let resizeTimer = 0;
 
+// ── REDUCED-MOTION CHECK ────────────────────────────────────────
+const prefersReducedMotion =
+  window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+
+// ── INIT ────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   canvas = document.getElementById('res-canvas');
-  fpsCountEl = document.getElementById('fps-count');
-
-  if (!canvas) {
-    console.error('perlin: no canvas with id=res-canvas found');
-    return;
-  }
+  if (!canvas) return;
   ctx = canvas.getContext('2d');
-  if (!ctx) {
-    console.error('perlin: 2D context not available');
-    return;
-  }
+  if (!ctx) return;
 
   setupEvents();
   resizeCanvas();
 
-  if (!prefersReducedMotion) {
-    requestAnimationFrame(loop);
-  } else {
-    // draw one static frame for reduced-motion users
-    zOffset += baseZOffset;
+  if (prefersReducedMotion) {
+    zOffset += BASE_Z_OFFSET;
     generateNoise();
     render();
-    if (fpsCountEl) fpsCountEl.innerText = 'reduced';
+  } else {
+    animId = requestAnimationFrame(loop);
   }
 });
 
+// ── EVENTS ──────────────────────────────────────────────────────
 function setupEvents() {
-  // handle resizing
-  window.addEventListener('resize', resizeCanvas);
-
-  // Track pointer move globally so we react even if the canvas is behind other elements.
-  // Use clientX/Y relative to canvas bounding rect.
-  window.addEventListener('pointermove', (e) => {
-    if (!canvas) return;
-    const rect = canvas.getBoundingClientRect();
-    mousePos.x = e.clientX - rect.left;
-    mousePos.y = e.clientY - rect.top;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(resizeCanvas, 120);
   });
 
-  // pointerdown/up globally capture clicks/touches anywhere on page
-  window.addEventListener('pointerdown', (e) => {
-    mouseDown = true;
-    // update pos immediately
-    if (canvas) {
-      const rect = canvas.getBoundingClientRect();
-      mousePos.x = e.clientX - rect.left;
-      mousePos.y = e.clientY - rect.top;
-    }
-  });
-  window.addEventListener('pointerup', () => {
-    mouseDown = false;
-  });
+  // Pointer (works for mouse + pen + touch on modern browsers)
+  window.addEventListener('pointermove', onPointerMove);
+  window.addEventListener('pointerdown', onPointerDown);
+  window.addEventListener('pointerup',   () => { mouseDown = false; });
 
-  // touch fallback for some older browsers (touchmove gives multiple touches)
+  // Touch fallback
   window.addEventListener('touchmove', (e) => {
-    if (!canvas) return;
-    // prefer first touch
-    const t = e.touches && e.touches[0];
+    const t = e.touches?.[0];
     if (!t) return;
-    const rect = canvas.getBoundingClientRect();
-    mousePos.x = t.clientX - rect.left;
-    mousePos.y = t.clientY - rect.top;
-    // treat touch as "mouseDown" while moving
+    mousePos.x = t.clientX;
+    mousePos.y = t.clientY;
     mouseDown = true;
   }, { passive: true });
+  window.addEventListener('touchend', () => { mouseDown = false; });
 
-  window.addEventListener('touchend', () => {
-    mouseDown = false;
+  // Pause when tab hidden
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      paused = true;
+      cancelAnimationFrame(animId);
+    } else if (!prefersReducedMotion) {
+      paused = false;
+      animId = requestAnimationFrame(loop);
+    }
   });
 }
 
+function onPointerMove(e) {
+  mousePos.x = e.clientX;
+  mousePos.y = e.clientY;
+}
+function onPointerDown(e) {
+  mouseDown = true;
+  mousePos.x = e.clientX;
+  mousePos.y = e.clientY;
+}
+
+// ── RESIZE (1x DPR) ────────────────────────────────────────────
 function resizeCanvas() {
-  const cssWidth = window.innerWidth;
-  const cssHeight = window.innerHeight;
-  const dpr = Math.max(window.devicePixelRatio || 1, 1);
+  const w = window.innerWidth;
+  const h = window.innerHeight;
 
-  canvas.width = Math.round(cssWidth * dpr);
-  canvas.height = Math.round(cssHeight * dpr);
+  // Render at 1x — this is a subtle background, retina is wasted work
+  canvas.width  = w;
+  canvas.height = h;
+  canvas.style.width  = w + 'px';
+  canvas.style.height = h + 'px';
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
 
-  canvas.style.width = cssWidth + 'px';
-  canvas.style.height = cssHeight + 'px';
+  cols = Math.floor(w / RES) + 1;
+  rows = Math.floor(h / RES) + 1;
 
-  // map drawing coordinates to CSS pixels
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  // Pre-allocate flat arrays
+  allocateArrays();
+}
 
-  cols = Math.floor(cssWidth / res) + 1;
-  rows = Math.floor(cssHeight / res) + 1;
-
-  // (Re)initialize zBoost values
+function allocateArrays() {
+  inputValues  = new Array(rows);
   zBoostValues = new Array(rows);
   for (let y = 0; y < rows; y++) {
-    zBoostValues[y] = new Array(cols + 1).fill(0);
+    inputValues[y]  = new Float64Array(cols + 1);
+    zBoostValues[y] = new Float64Array(cols + 1); // zeros by default
   }
 }
 
-function loop(time) {
-  if (!lastFrameTime) lastFrameTime = time;
-  const dt = time - lastFrameTime;
-
-  if (MAX_FPS > 0) {
-    const interval = 1000 / MAX_FPS;
-    if (dt < interval) {
-      requestAnimationFrame(loop);
-      return;
-    }
-    lastFrameTime = time;
-  } else {
-    lastFrameTime = time;
-  }
-
-  if (showFPS && fpsCountEl) {
-    fpsSamples.push(dt);
-    if (fpsSamples.length > 60) fpsSamples.shift();
-    const avg = fpsSamples.reduce((a, b) => a + b, 0) / fpsSamples.length;
-    fpsCountEl.innerText = Math.round(1000 / avg).toString();
-  }
-
-  update(dt);
+// ── LOOP ────────────────────────────────────────────────────────
+function loop() {
+  if (paused) return;
+  update();
   render();
-
-  requestAnimationFrame(loop);
+  animId = requestAnimationFrame(loop);
 }
 
+// ── UPDATE ──────────────────────────────────────────────────────
 function update() {
-  // apply mouse influence when interactive is true and mouse has valid coordinates
-  if (interactive && mousePos.x !== -99 && mousePos.y !== -99) {
-    // apply ripple every frame — lighter for move, stronger when mouse down
+  if (mousePos.x !== -999 && mousePos.y !== -999) {
     mouseOffset();
   }
-
-  zOffset += baseZOffset;
+  zOffset += BASE_Z_OFFSET;
   generateNoise();
 }
 
+// ── GENERATE NOISE ──────────────────────────────────────────────
+function generateNoise() {
+  let nMin = 100, nMax = 0;
+  for (let y = 0; y < rows; y++) {
+    const row   = inputValues[y];
+    const boost = zBoostValues[y];
+    for (let x = 0; x <= cols; x++) {
+      const n = ChriscoursesPerlinNoise.noise(
+        x * NOISE_SCALE, y * NOISE_SCALE, zOffset + boost[x]
+      ) * 100;
+      row[x] = n;
+      if (n < nMin) nMin = n;
+      if (n > nMax) nMax = n;
+      if (boost[x] > 0) {
+        boost[x] *= BOOST_DECAY;
+        if (boost[x] < 1e-6) boost[x] = 0;
+      }
+    }
+  }
+  noiseMin = nMin;
+  noiseMax = nMax;
+}
+
+// ── MOUSE INFLUENCE ─────────────────────────────────────────────
+function mouseOffset() {
+  const xCell = Math.floor(mousePos.x / RES);
+  const yCell = Math.floor(mousePos.y / RES);
+  if (xCell < 0 || yCell < 0 || yCell >= rows || xCell > cols) return;
+
+  const inc = MOUSE_BASE_INC * (mouseDown ? MOUSE_PRESS_MULT : MOUSE_MOVE_MULT);
+  const rSq = MOUSE_RADIUS * MOUSE_RADIUS;
+
+  for (let j = -MOUSE_RADIUS; j <= MOUSE_RADIUS; j++) {
+    const yy = yCell + j;
+    if (yy < 0 || yy >= rows) continue;
+    const boost = zBoostValues[yy];
+    for (let i = -MOUSE_RADIUS; i <= MOUSE_RADIUS; i++) {
+      const xx = xCell + i;
+      if (xx < 0 || xx > cols) continue;
+      const dSq = i * i + j * j;
+      if (dSq <= rSq) {
+        boost[xx] += inc * (1 - dSq / rSq);
+      }
+    }
+  }
+}
+
+// ── RENDER ──────────────────────────────────────────────────────
 function render() {
-  ctx.fillStyle = backgroundColor;
-  ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+  const w = canvas.width;
+  const h = canvas.height;
 
-  const roundedNoiseMin = Math.floor(noiseMin / thresholdIncrement) * thresholdIncrement;
-  const roundedNoiseMax = Math.ceil(noiseMax / thresholdIncrement) * thresholdIncrement;
+  ctx.fillStyle = BG_COLOR;
+  ctx.fillRect(0, 0, w, h);
 
-  for (let threshold = roundedNoiseMin; threshold < roundedNoiseMax; threshold += thresholdIncrement) {
-    currentThreshold = threshold;
+  const tMin = Math.floor(noiseMin / THRESHOLD_INC) * THRESHOLD_INC;
+  const tMax = Math.ceil(noiseMax / THRESHOLD_INC)  * THRESHOLD_INC;
+  const thickMod = THRESHOLD_INC * THICK_MULTIPLE;
+
+  for (let t = tMin; t < tMax; t += THRESHOLD_INC) {
+    currentThreshold = t;
     ctx.beginPath();
-    ctx.strokeStyle = lineColor;
-    ctx.lineWidth = currentThreshold % (thresholdIncrement * thickLineThresholdMultiple) === 0 ? 2 : 1;
+    ctx.strokeStyle = LINE_COLOR;
+    ctx.lineWidth = (t % thickMod === 0) ? 2 : 1;
     renderAtThreshold();
     ctx.stroke();
   }
-
-  noiseMin = 100;
-  noiseMax = 0;
 }
 
-function generateNoise() {
-  const scale = 0.02;
-  for (let y = 0; y < rows; y++) {
-    inputValues[y] = [];
-    for (let x = 0; x <= cols; x++) {
-      const n = ChriscoursesPerlinNoise.noise(x * scale, y * scale, zOffset + (zBoostValues[y]?.[x] || 0)) * 100;
-      inputValues[y][x] = n;
-      if (n < noiseMin) noiseMin = n;
-      if (n > noiseMax) noiseMax = n;
-      if (zBoostValues[y]?.[x] > 0) {
-        zBoostValues[y][x] *= 0.98; // slightly faster decay for responsiveness
-        if (zBoostValues[y][x] < 1e-6) zBoostValues[y][x] = 0;
-      }
-    }
-  }
-}
-
-function mouseOffset() {
-  // compute cell under pointer
-  const xCell = Math.floor(mousePos.x / res);
-  const yCell = Math.floor(mousePos.y / res);
-  if (xCell < 0 || yCell < 0 || yCell >= rows || xCell > cols) return;
-
-  // different strength depending on whether pointer is pressed
-  const baseIncrement = 0.01;
-  const pressMultiplier = mouseDown ? 2.8 : 0.9;
-  const incrementValue = baseIncrement * pressMultiplier;
-  const radius = 6;
-
-  for (let j = -radius; j <= radius; j++) {
-    for (let i = -radius; i <= radius; i++) {
-      const yy = yCell + j;
-      const xx = xCell + i;
-      if (yy < 0 || xx < 0 || yy >= rows || xx > cols) continue;
-      const distSq = i * i + j * j;
-      const radiusSq = radius * radius;
-      if (distSq <= radiusSq) {
-        const factor = 1 - distSq / radiusSq;
-        zBoostValues[yy][xx] += incrementValue * factor;
-      }
-    }
-  }
-}
-
+// ── MARCHING SQUARES ────────────────────────────────────────────
 function renderAtThreshold() {
-  const h = inputValues.length - 1;
-  for (let y = 0; y < h; y++) {
-    for (let x = 0; x < inputValues[y].length - 1; x++) {
-      const a = inputValues[y][x];
-      const b = inputValues[y][x + 1];
-      const c = inputValues[y + 1][x + 1];
-      const d = inputValues[y + 1][x];
+  const lastY = rows - 1;
+  for (let y = 0; y < lastY; y++) {
+    const rowA = inputValues[y];
+    const rowB = inputValues[y + 1];
+    const len  = rowA.length - 1;
+    for (let x = 0; x < len; x++) {
+      const a = rowA[x], b = rowA[x + 1];
+      const d = rowB[x], c = rowB[x + 1];
 
-      if (a > currentThreshold && b > currentThreshold && c > currentThreshold && d > currentThreshold) continue;
-      if (a < currentThreshold && b < currentThreshold && c < currentThreshold && d < currentThreshold) continue;
+      // skip fully inside / outside
+      const t = currentThreshold;
+      if (a > t && b > t && c > t && d > t) continue;
+      if (a < t && b < t && c < t && d < t) continue;
 
-      const gridValue = binaryToType(
-        a > currentThreshold ? 1 : 0,
-        b > currentThreshold ? 1 : 0,
-        c > currentThreshold ? 1 : 0,
-        d > currentThreshold ? 1 : 0
+      placeLines(
+        (a > t ? 8 : 0) | (b > t ? 4 : 0) | (c > t ? 2 : 0) | (d > t ? 1 : 0),
+        x, y, a, b, c, d
       );
-
-      placeLines(gridValue, x, y, a, b, c, d);
     }
   }
 }
 
-function placeLines(gridValue, x, y, nw, ne, se, sw) {
-  let a, b, c, d;
-  switch (gridValue) {
-    case 1:
-    case 14:
-      c = [x * res + res * linInterpolate(sw, se), y * res + res];
-      d = [x * res, y * res + res * linInterpolate(nw, sw)];
-      line(d, c);
-      break;
-    case 2:
-    case 13:
-      b = [x * res + res, y * res + res * linInterpolate(ne, se)];
-      c = [x * res + res * linInterpolate(sw, se), y * res + res];
-      line(b, c);
-      break;
-    case 3:
-    case 12:
-      b = [x * res + res, y * res + res * linInterpolate(ne, se)];
-      d = [x * res, y * res + res * linInterpolate(nw, sw)];
-      line(d, b);
-      break;
-    case 11:
-    case 4:
-      a = [x * res + res * linInterpolate(nw, ne), y * res];
-      b = [x * res + res, y * res + res * linInterpolate(ne, se)];
-      line(a, b);
-      break;
+function placeLines(gv, x, y, nw, ne, se, sw) {
+  const ox = x * RES, oy = y * RES;
+  let ax, ay, bx, by, cx, cy, dx, dy;
+  switch (gv) {
+    case 1: case 14:
+      cx = ox + RES * lerp(sw, se); cy = oy + RES;
+      dx = ox;                      dy = oy + RES * lerp(nw, sw);
+      moveLine(dx, dy, cx, cy); break;
+    case 2: case 13:
+      bx = ox + RES; by = oy + RES * lerp(ne, se);
+      cx = ox + RES * lerp(sw, se); cy = oy + RES;
+      moveLine(bx, by, cx, cy); break;
+    case 3: case 12:
+      bx = ox + RES; by = oy + RES * lerp(ne, se);
+      dx = ox;        dy = oy + RES * lerp(nw, sw);
+      moveLine(dx, dy, bx, by); break;
+    case 4: case 11:
+      ax = ox + RES * lerp(nw, ne); ay = oy;
+      bx = ox + RES; by = oy + RES * lerp(ne, se);
+      moveLine(ax, ay, bx, by); break;
     case 5:
-      a = [x * res + res * linInterpolate(nw, ne), y * res];
-      b = [x * res + res, y * res + res * linInterpolate(ne, se)];
-      c = [x * res + res * linInterpolate(sw, se), y * res + res];
-      d = [x * res, y * res + res * linInterpolate(nw, sw)];
-      line(d, a);
-      line(c, b);
-      break;
-    case 6:
-    case 9:
-      a = [x * res + res * linInterpolate(nw, ne), y * res];
-      c = [x * res + res * linInterpolate(sw, se), y * res + res];
-      line(c, a);
-      break;
-    case 7:
-    case 8:
-      a = [x * res + res * linInterpolate(nw, ne), y * res];
-      d = [x * res, y * res + res * linInterpolate(nw, sw)];
-      line(d, a);
-      break;
+      ax = ox + RES * lerp(nw, ne); ay = oy;
+      bx = ox + RES; by = oy + RES * lerp(ne, se);
+      cx = ox + RES * lerp(sw, se); cy = oy + RES;
+      dx = ox;        dy = oy + RES * lerp(nw, sw);
+      moveLine(dx, dy, ax, ay);
+      moveLine(cx, cy, bx, by); break;
+    case 6: case 9:
+      ax = ox + RES * lerp(nw, ne); ay = oy;
+      cx = ox + RES * lerp(sw, se); cy = oy + RES;
+      moveLine(cx, cy, ax, ay); break;
+    case 7: case 8:
+      ax = ox + RES * lerp(nw, ne); ay = oy;
+      dx = ox;        dy = oy + RES * lerp(nw, sw);
+      moveLine(dx, dy, ax, ay); break;
     case 10:
-      a = [x * res + res * linInterpolate(nw, ne), y * res];
-      b = [x * res + res, y * res + res * linInterpolate(ne, se)];
-      c = [x * res + res * linInterpolate(sw, se), y * res + res];
-      d = [x * res, y * res + res * linInterpolate(nw, sw)];
-      line(a, b);
-      line(c, d);
-      break;
-    default:
-      break;
+      ax = ox + RES * lerp(nw, ne); ay = oy;
+      bx = ox + RES; by = oy + RES * lerp(ne, se);
+      cx = ox + RES * lerp(sw, se); cy = oy + RES;
+      dx = ox;        dy = oy + RES * lerp(nw, sw);
+      moveLine(ax, ay, bx, by);
+      moveLine(cx, cy, dx, dy); break;
   }
 }
 
-function line(from, to) {
-  ctx.moveTo(from[0], from[1]);
-  ctx.lineTo(to[0], to[1]);
+function moveLine(x1, y1, x2, y2) {
+  ctx.moveTo(x1, y1);
+  ctx.lineTo(x2, y2);
 }
 
-function linInterpolate(x0, x1, y0 = 0, y1 = 1) {
-  if (x0 === x1) return 0;
-  return y0 + ((y1 - y0) * (currentThreshold - x0)) / (x1 - x0);
+function lerp(v0, v1) {
+  if (v0 === v1) return 0;
+  return (currentThreshold - v0) / (v1 - v0);
 }
 
-function binaryToType(nw, ne, se, sw) {
-  let a = [nw, ne, se, sw];
-  return a.reduce((res, x) => (res << 1) | x, 0);
-}
