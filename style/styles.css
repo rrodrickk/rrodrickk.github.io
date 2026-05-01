@@ -246,18 +246,34 @@ body {
 .tiktok-embed-wrapper {
   display: flex;
   justify-content: center;
+  /* Crop to video only – hide caption/footer */
+  max-width: 330px;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 12px;
+  max-height: 590px;          /* just the video portion */
+  position: relative;
 }
 .tiktok-embed-wrapper blockquote {
   margin: 0 !important;
 }
-/* Hide the white chrome from TikTok's iframe */
 .tiktok-embed-wrapper iframe {
+  border: none !important;
   border-radius: 12px !important;
-  border: 1px solid rgba(255,255,255,0.08) !important;
+  background: transparent !important;
 }
-/* Override TikTok's injected white background on the container */
 .tiktok-embed-wrapper .tiktok-embed {
   background: transparent !important;
+}
+/* Fade-out bottom edge for clean crop */
+.tiktok-embed-wrapper::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 30px;
+  background: linear-gradient(transparent, #000);
+  pointer-events: none;
+  z-index: 2;
 }
 
 /* ── Contact ───────────────────────────────────────────── */
