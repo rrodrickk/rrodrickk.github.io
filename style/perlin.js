@@ -24,7 +24,7 @@ const MOUSE_RADIUS     = 6;
 const MOUSE_BASE_INC   = 0.012;
 const MOUSE_PRESS_MULT = 3.2;
 const MOUSE_MOVE_MULT  = 1.0;
-const GLOW_RADIUS      = 200;         // px radius of cursor spotlight
+const GLOW_RADIUS      = 350;         // px radius of cursor spotlight (large + smooth)
 // Adaptive cell size: coarser on small screens
 const RES = window.innerWidth < 600 ? 16 : 11;
 
@@ -227,17 +227,25 @@ function render() {
     ctx.stroke();
   }
 
-  // Glow pass — brighter lines masked to a circle around the cursor
+  // Glow pass — radial gradient mask for smooth fade (like triho.dev)
   if (mousePos.x !== -999 && mousePos.y !== -999) {
     ctx.save();
-    ctx.beginPath();
-    ctx.arc(mousePos.x, mousePos.y, GLOW_RADIUS, 0, Math.PI * 2);
-    ctx.clip();
+
+    // Draw glow lines onto an offscreen-compatible layer using globalAlpha mask
+    // Create radial gradient used as a compositing mask
+    const grd = ctx.createRadialGradient(
+      mousePos.x, mousePos.y, 0,
+      mousePos.x, mousePos.y, GLOW_RADIUS
+    );
+    grd.addColorStop(0, 'rgba(212, 160, 76, 1)');
+    grd.addColorStop(0.4, 'rgba(212, 160, 76, 0.6)');
+    grd.addColorStop(0.75, 'rgba(212, 160, 76, 0.2)');
+    grd.addColorStop(1, 'rgba(212, 160, 76, 0)');
 
     for (let t = tMin; t < tMax; t += THRESHOLD_INC) {
       currentThreshold = t;
       ctx.beginPath();
-      ctx.strokeStyle = LINE_COLOR_GLOW;
+      ctx.strokeStyle = grd;
       ctx.lineWidth = (t % thickMod === 0) ? 2.5 : 1.2;
       renderAtThreshold();
       ctx.stroke();
