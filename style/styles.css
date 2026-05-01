@@ -249,19 +249,12 @@ body {
   max-width: 330px;
   margin: 0 auto;
 }
-.tiktok-embed-wrapper blockquote {
-  margin: 0 !important;
-}
-/* Crop caption area and fade bottom edge */
 .tiktok-embed-wrapper iframe {
-  border: none !important;
-  border-radius: 12px !important;
-  background: transparent !important;
-  clip-path: inset(0 0 22% 0 round 12px);
-  -webkit-clip-path: inset(0 0 22% 0 round 12px);
-}
-.tiktok-embed-wrapper .tiktok-embed {
-  background: transparent !important;
+  width: 330px;
+  height: 590px;
+  border: none;
+  border-radius: 12px;
+  background: transparent;
 }
 
 /* ── Contact ───────────────────────────────────────────── */
