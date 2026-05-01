@@ -14,17 +14,17 @@ import * as ChriscoursesPerlinNoise from 'https://esm.sh/@chriscourses/perlin-no
 // ── CONFIG ──────────────────────────────────────────────────────
 const THRESHOLD_INC    = 4;
 const THICK_MULTIPLE   = 26;
-const BASE_Z_OFFSET    = 0.0015;
-const LINE_COLOR       = '#a9680094';
-const LINE_COLOR_GLOW  = '#d4a04c';   // brighter lines near cursor
+const BASE_Z_OFFSET    = 0.0004;
+const LINE_COLOR       = '#a968001a';  // very faint base lines
+const LINE_COLOR_GLOW  = '#d4a04c';   // bright lines near cursor/touch
 const BG_COLOR         = '#000000';
 const NOISE_SCALE      = 0.02;
-const BOOST_DECAY      = 0.98;
+const BOOST_DECAY      = 0.97;
 const MOUSE_RADIUS     = 6;
-const MOUSE_BASE_INC   = 0.01;
-const MOUSE_PRESS_MULT = 2.8;
-const MOUSE_MOVE_MULT  = 0.9;
-const GLOW_RADIUS      = 180;         // px radius of cursor spotlight
+const MOUSE_BASE_INC   = 0.012;
+const MOUSE_PRESS_MULT = 3.2;
+const MOUSE_MOVE_MULT  = 1.0;
+const GLOW_RADIUS      = 200;         // px radius of cursor spotlight
 // Adaptive cell size: coarser on small screens
 const RES = window.innerWidth < 600 ? 16 : 11;
 
