@@ -16,6 +16,7 @@ const THRESHOLD_INC    = 4;
 const THICK_MULTIPLE   = 26;
 const BASE_Z_OFFSET    = 0.0015;
 const LINE_COLOR       = '#a9680094';
+const LINE_COLOR_GLOW  = '#d4a04c';   // brighter lines near cursor
 const BG_COLOR         = '#000000';
 const NOISE_SCALE      = 0.02;
 const BOOST_DECAY      = 0.98;
@@ -23,6 +24,7 @@ const MOUSE_RADIUS     = 6;
 const MOUSE_BASE_INC   = 0.01;
 const MOUSE_PRESS_MULT = 2.8;
 const MOUSE_MOVE_MULT  = 0.9;
+const GLOW_RADIUS      = 180;         // px radius of cursor spotlight
 // Adaptive cell size: coarser on small screens
 const RES = window.innerWidth < 600 ? 16 : 11;
 
@@ -215,6 +217,7 @@ function render() {
   const tMax = Math.ceil(noiseMax / THRESHOLD_INC)  * THRESHOLD_INC;
   const thickMod = THRESHOLD_INC * THICK_MULTIPLE;
 
+  // Base pass — dim lines everywhere
   for (let t = tMin; t < tMax; t += THRESHOLD_INC) {
     currentThreshold = t;
     ctx.beginPath();
@@ -222,6 +225,24 @@ function render() {
     ctx.lineWidth = (t % thickMod === 0) ? 2 : 1;
     renderAtThreshold();
     ctx.stroke();
+  }
+
+  // Glow pass — brighter lines masked to a circle around the cursor
+  if (mousePos.x !== -999 && mousePos.y !== -999) {
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(mousePos.x, mousePos.y, GLOW_RADIUS, 0, Math.PI * 2);
+    ctx.clip();
+
+    for (let t = tMin; t < tMax; t += THRESHOLD_INC) {
+      currentThreshold = t;
+      ctx.beginPath();
+      ctx.strokeStyle = LINE_COLOR_GLOW;
+      ctx.lineWidth = (t % thickMod === 0) ? 2.5 : 1.2;
+      renderAtThreshold();
+      ctx.stroke();
+    }
+    ctx.restore();
   }
 }
 

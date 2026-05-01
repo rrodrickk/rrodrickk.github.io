@@ -1,20 +1,15 @@
-// fade.js
+// fade.js — page-transition fade for multi-page navigation (blog subpages)
 window.addEventListener("DOMContentLoaded", () => {
   document.body.classList.add("fade-in");
 
   document.querySelectorAll("a[href]").forEach(link => {
-    // only apply to internal links
-    if (link.hostname === location.hostname && !link.target) {
+    if (link.hostname === location.hostname && !link.target && !link.hash) {
       link.addEventListener("click", e => {
         e.preventDefault();
         const href = link.href;
-
         document.body.classList.remove("fade-in");
         document.body.classList.add("fade-out");
-
-        setTimeout(() => {
-          window.location.href = href;
-        }, 400); // matches the transition duration
+        setTimeout(() => { window.location.href = href; }, 400);
       });
     }
   });
