@@ -237,10 +237,11 @@ function render() {
       mousePos.x, mousePos.y, 0,
       mousePos.x, mousePos.y, GLOW_RADIUS
     );
-    grd.addColorStop(0, 'rgba(212, 160, 76, 1)');
-    grd.addColorStop(0.4, 'rgba(212, 160, 76, 0.6)');
-    grd.addColorStop(0.75, 'rgba(212, 160, 76, 0.2)');
-    grd.addColorStop(1, 'rgba(212, 160, 76, 0)');
+    grd.addColorStop(0, 'rgba(225, 170, 60, 1)');
+    grd.addColorStop(0.3, 'rgba(225, 170, 60, 0.85)');
+    grd.addColorStop(0.6, 'rgba(212, 150, 50, 0.5)');
+    grd.addColorStop(0.85, 'rgba(200, 130, 40, 0.15)');
+    grd.addColorStop(1, 'rgba(200, 130, 40, 0)');
 
     for (let t = tMin; t < tMax; t += THRESHOLD_INC) {
       currentThreshold = t;
