@@ -142,10 +142,15 @@ function allocateArrays() {
 }
 
 // ── LOOP ────────────────────────────────────────────────────────
+let firstFrame = true;
 function loop() {
   if (paused) return;
   update();
   render();
+  if (firstFrame) {
+    firstFrame = false;
+    window.dispatchEvent(new Event('perlin-ready'));
+  }
   animId = requestAnimationFrame(loop);
 }
 

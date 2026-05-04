@@ -13,6 +13,7 @@
 </head>
 
 <body class="site-page">
+<div id="page-loader"></div>
 <script src="../style/fade.js"></script>
 <canvas id="res-canvas" aria-hidden="true"></canvas>
 <script type="module" src="../style/perlin.js"></script>
@@ -115,6 +116,22 @@
         </div>
     </div>
 </div>
+<script>
+(function() {
+    var loader = document.getElementById('page-loader');
+    if (!loader) return;
+    var ready = { perlin: false, fonts: false };
+    function check() {
+        if (ready.perlin && ready.fonts) {
+            loader.classList.add('loaded');
+            setTimeout(function() { loader.remove(); }, 900);
+        }
+    }
+    window.addEventListener('perlin-ready', function() { ready.perlin = true; check(); });
+    document.fonts.ready.then(function() { ready.fonts = true; check(); });
+    setTimeout(function() { loader.classList.add('loaded'); }, 4000);
+})();
+</script>
 </body>
 
 </html>
