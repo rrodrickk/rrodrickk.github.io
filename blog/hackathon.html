@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>My First Hackathon</title>
+    <link rel="shortcut icon" href="../favicon.png" type="image/x-icon">
+    <link rel="icon" href="./favicon.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bitcount+Single:wght@100..900&display=swap" rel="stylesheet">
+    <link href="../style/styles.css" rel="stylesheet">
+</head>
+
+<body class="site-page">
+<script src="../style/fade.js"></script>
+<canvas id="res-canvas" aria-hidden="true"></canvas>
+<script type="module" src="../style/perlin.js"></script>
+<a href="./" class="back-button">←</a>
+<div class="guide-container">
+    <div class="content-wrapper-guide">
+        <h1 class="heading">My First Hackathon</h1>
+        <div class="guide-text">
+            <ol>
+                <li>
+                    <h2>48 Hours to Build Something Real</h2>
+                    <p>BugsByte 2026, hosted by CeSIUM, was a 48-hour hackathon and my first. As someone used to the pressure of live music performances, I thought I had a decent tolerance for working under time constraints. Turns out, bridging volatile financial data with real-time AI is a different kind of pressure entirely.</p>
+                    <p>I teamed up with three friends from the University of Minho: Beatriz Campinho, Diogo Duarte, and Miguel André Leal Santos. We went in with one goal: build something functional and useful before time ran out.</p>
+                    <div class="blog-img-row">
+                        <img src="../assets/photos/linkedin-image-1777893647-1833.jpg" alt="Hackathon venue with teams coding" loading="lazy">
+                        <img src="../assets/photos/linkedin-image-1777893647-3758.jpg" alt="Geisha Gains presentation slide" loading="lazy">
+                    </div>
+                    <p>Our project, <strong>Geisha Gains: War Room</strong>, came from a shared interest in crypto trading. Rather than building another generic dashboard, we wanted to create a focused cockpit for strategic decision-making. The project was supported by mentorship from Uphold, which helped shape both the scope and direction of what we built.</p>
+                </li>
+                <br />
+                <li>
+                    <h2>Brutalist Design as a Feature</h2>
+                    <p>There is a common tendency in software design to over-polish interfaces, burying utility under layers of gradients and unnecessary animation. For Geisha Gains, we went the opposite direction: a brutalist, stripped-back UI.</p>
+                    <p>In the context of a "War Room," a trader needs clear signals, not decorative charts. We prioritized what we called "strategic intelligence" over generic market metrics. The system uses AI to filter and evaluate real-time financial news, then assesses event severity based on a user's risk threshold and investment profile. It outputs direct, actionable suggestions: hold during minor market shifts, or trigger total liquidation in extreme scenarios.</p>
+                    <p>The design philosophy was simple: respect the user's cognitive load. Give them the raw data they need to make fast, confident decisions without having to dig through noise.</p>
+                    <div class="slideshow">
+                        <button class="slide-arrow slide-prev" aria-label="Previous">&#8592;</button>
+                        <div class="slide-track">
+                            <img class="slide active" src="../assets/photos/linkedin-image-1777893647-1773.jpg" alt="Base of Operations - strategy configuration UI">
+                            <img class="slide" src="../assets/photos/linkedin-image-1777893647-7297.jpg" alt="War Room main dashboard with arbitrage scanner">
+                            <img class="slide" src="../assets/photos/linkedin-image-1777893647-8298.jpg" alt="Holdings view with multi-asset chart">
+                            <img class="slide" src="../assets/photos/linkedin-image-1777893647-5598.jpg" alt="News Bureau with AI analysis">
+                            <img class="slide" src="../assets/photos/linkedin-image-1777893647-4767.jpg" alt="Early wireframe sketch of the dashboard">
+                            <img class="slide" src="../assets/photos/linkedin-image-1777893647-8657.jpg" alt="Wireframe sketch of the news bulletin page">
+                        </div>
+                        <button class="slide-arrow slide-next" aria-label="Next">&#8594;</button>
+                        <div class="slide-counter"></div>
+                    </div>
+                </li>
+                <br />
+                <li>
+                    <h2>The Stack</h2>
+                    <p>We needed a stack that could handle real-time data without falling apart. Here is what we used:</p>
+                    <ul>
+                        <li><strong>NVIDIA NIM:</strong> Handled high-performance, real-time processing of financial news feeds.</li>
+                        <li><strong>Next.js & TypeScript:</strong> Used for both frontend and backend. Type safety helped us move quickly without introducing logic errors, which matters a lot in a 48-hour window.</li>
+                        <li><strong>Prisma & PostgreSQL:</strong> Served as the data layer. Prisma handled the ORM side, managing user profiles and simulated trades with clean, maintainable queries.</li>
+                    </ul>
+                    <p>We chose this architecture because we wanted to write code that could survive past the hackathon. Even under time pressure, we tried to build with intent rather than just throwing things together.</p>
+                </li>
+                <br />
+                <li>
+                    <h2>The 10-Minute Docker Crisis</h2>
+                    <p>Every project has a moment where things nearly fall apart. Ours came in the final ten minutes.</p>
+                    <p>We tried to implement Docker to ensure environment parity and avoid the classic "works on my machine" problem. Instead, we ran straight into a wall of configuration issues that threatened to break our entire demo.</p>
+                    <p>The instinct was to push through and fix it. But with ten minutes left, the practical choice was to rebase to a previous stable version. We killed a feature to save the project.</p>
+                    <p>It was a useful lesson: knowing when to simplify and fall back to something stable is often more important than chasing the perfect setup. A working demo beats a broken one with better infrastructure.</p>
+                    <img src="../assets/photos/linkedin-image-1777893647-8686.jpg" alt="Coding at the hackathon with merge conflicts on screen" loading="lazy">
+                </li>
+                <br />
+                <li>
+                    <h2>Team Dynamics Under Pressure</h2>
+                    <p>The outcome of Geisha Gains was directly tied to how well we worked together. Beatriz, Diogo, Miguel, and I had the advantage of already knowing each other well from campus. That familiarity made it easier to divide work, communicate quickly, and pivot when something was not working.</p>
+                    <p>That collaboration paid off: we won the <strong>Best Byte Theme</strong> prize from Uphold, taking home €250. The prize was a great milestone, but the more lasting takeaway was seeing that a small, coordinated team can deliver a working product under real constraints.</p>
+                    <div class="blog-img-row">
+                        <img src="../assets/photos/linkedin-image-1777893647-6656.jpg" alt="Theme Winners announcement on stage" loading="lazy">
+                        <img src="../assets/photos/linkedin-image-1777893647-2543.jpg" alt="Team holding the prize check" loading="lazy">
+                    </div>
+                </li>
+                <br />
+                <li>
+                    <h2>What I Took Away</h2>
+                    <p>As a second-year student, this hackathon reinforced something I keep coming back to: you have to get the basics right before you can build anything meaningful. Clean code and solid architecture come first. Integration and logic come second. Complex systems come last.</p>
+                    <p>This experience fits into the bigger picture of where I want to go, which is toward a Master's in AI and Machine Learning. Whether it is writing code for a real-time financial tool or arranging a track for my band Solmane, the process is similar: build carefully, test often, and know when to simplify.</p>
+                    <p>When your "perfect" solution fails with ten minutes on the clock, the real question is whether you have the discipline to step back and ship something that works.</p>
+                </li>
+            </ol>
+        </div>
+    </div>
+</div>
+<script>
+(function() {
+    const show = document.querySelector('.slideshow');
+    if (!show) return;
+    const slides = show.querySelectorAll('.slide');
+    const counter = show.querySelector('.slide-counter');
+    let idx = 0;
+    function go(i) {
+        slides[idx].classList.remove('active');
+        idx = (i + slides.length) % slides.length;
+        slides[idx].classList.add('active');
+        counter.textContent = (idx + 1) + ' / ' + slides.length;
+    }
+    show.querySelector('.slide-prev').addEventListener('click', function() { go(idx - 1); });
+    show.querySelector('.slide-next').addEventListener('click', function() { go(idx + 1); });
+    counter.textContent = '1 / ' + slides.length;
+})();
+</script>
+</body>
+
+</html>
