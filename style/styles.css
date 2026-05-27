@@ -761,24 +761,43 @@ tr:hover { background: var(--accent-alpha-08); }
     padding: 0.25rem 0.4rem;
   }
 
-  /* Hero → stack vertically */
+  /* Hero → single-column vertical stack (triho.dev style) */
   .hero {
-    grid-template-columns: 1fr;
-    gap: 1.2rem;
-    padding-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding-top: 1.5rem;
     padding-bottom: 1.5rem;
   }
   .hero-col-photo {
     order: -1;
-    justify-self: center;
+    width: 100% !important;
+    max-width: 100% !important;
+    display: contents;
   }
   .hero-photo {
-    width: 180px;
-    aspect-ratio: 1 / 1;
+    order: -2;
+    display: block;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 100% !important;
+    aspect-ratio: 1 / 1 !important;
+    object-fit: cover !important;
+    border-radius: 6px;
+    margin-bottom: 1.2rem;
+    flex-shrink: 0;
   }
-  .career-timeline {
-    display: none;
+    .career-timeline {
+    order: 1;
+    display: flex;
+    width: 100% !important;
+    margin-top: 1.2rem;
   }
+  .hero-col-text {
+    order: 0;
+    width: 100%;
+  }
+
   .hero-clock {
     margin-top: 0.5rem;
   }
