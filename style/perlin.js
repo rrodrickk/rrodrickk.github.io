@@ -15,9 +15,6 @@ import * as ChriscoursesPerlinNoise from 'https://esm.sh/@chriscourses/perlin-no
 const THRESHOLD_INC    = 4;
 const THICK_MULTIPLE   = 26;
 const BASE_Z_OFFSET    = 0.0004;
-const LINE_COLOR       = '#a968001a';  // very faint base lines
-const LINE_COLOR_GLOW  = '#d4a04c';   // bright lines near cursor/touch
-const BG_COLOR         = '#000000';
 const NOISE_SCALE      = 0.02;
 const BOOST_DECAY      = 0.97;
 const MOUSE_RADIUS     = 6;
@@ -27,6 +24,20 @@ const MOUSE_MOVE_MULT  = 1.0;
 const GLOW_RADIUS      = 350;         // px radius of cursor spotlight (large + smooth)
 // Adaptive cell size: coarser on small screens
 const RES = window.innerWidth < 600 ? 16 : 11;
+
+// ── THEME-AWARE COLORS ─────────────────────────────────────────
+const THEMES = {
+  dark:  { line: '#a968001a', glow: '#d4a04c', bg: '#000000',
+           g0: 'rgba(225, 170, 60, 1)',   g1: 'rgba(225, 170, 60, 0.85)',
+           g2: 'rgba(212, 150, 50, 0.5)', g3: 'rgba(200, 130, 40, 0.15)',
+           g4: 'rgba(200, 130, 40, 0)' },
+  light: { line: '#00B8D91a', glow: '#00B8D9', bg: '#ffffff',
+           g0: 'rgba(0, 184, 217, 1)',     g1: 'rgba(0, 184, 217, 0.85)',
+           g2: 'rgba(0, 160, 190, 0.5)',   g3: 'rgba(0, 140, 170, 0.15)',
+           g4: 'rgba(0, 140, 170, 0)' }
+};
+function isLight() { return document.body.classList.contains('light-mode'); }
+function getTheme() { return isLight() ? THEMES.light : THEMES.dark; }
 
 // ── STATE ───────────────────────────────────────────────────────
 let canvas, ctx;
@@ -214,8 +225,9 @@ function mouseOffset() {
 function render() {
   const w = canvas.width;
   const h = canvas.height;
+  const t = getTheme();
 
-  ctx.fillStyle = BG_COLOR;
+  ctx.fillStyle = t.bg;
   ctx.fillRect(0, 0, w, h);
 
   const tMin = Math.floor(noiseMin / THRESHOLD_INC) * THRESHOLD_INC;
@@ -223,11 +235,11 @@ function render() {
   const thickMod = THRESHOLD_INC * THICK_MULTIPLE;
 
   // Base pass — dim lines everywhere
-  for (let t = tMin; t < tMax; t += THRESHOLD_INC) {
-    currentThreshold = t;
+  for (let tt = tMin; tt < tMax; tt += THRESHOLD_INC) {
+    currentThreshold = tt;
     ctx.beginPath();
-    ctx.strokeStyle = LINE_COLOR;
-    ctx.lineWidth = (t % thickMod === 0) ? 2 : 1;
+    ctx.strokeStyle = t.line;
+    ctx.lineWidth = (tt % thickMod === 0) ? 2 : 1;
     renderAtThreshold();
     ctx.stroke();
   }
@@ -236,23 +248,21 @@ function render() {
   if (mousePos.x !== -999 && mousePos.y !== -999) {
     ctx.save();
 
-    // Draw glow lines onto an offscreen-compatible layer using globalAlpha mask
-    // Create radial gradient used as a compositing mask
     const grd = ctx.createRadialGradient(
       mousePos.x, mousePos.y, 0,
       mousePos.x, mousePos.y, GLOW_RADIUS
     );
-    grd.addColorStop(0, 'rgba(225, 170, 60, 1)');
-    grd.addColorStop(0.3, 'rgba(225, 170, 60, 0.85)');
-    grd.addColorStop(0.6, 'rgba(212, 150, 50, 0.5)');
-    grd.addColorStop(0.85, 'rgba(200, 130, 40, 0.15)');
-    grd.addColorStop(1, 'rgba(200, 130, 40, 0)');
+    grd.addColorStop(0, t.g0);
+    grd.addColorStop(0.3, t.g1);
+    grd.addColorStop(0.6, t.g2);
+    grd.addColorStop(0.85, t.g3);
+    grd.addColorStop(1, t.g4);
 
-    for (let t = tMin; t < tMax; t += THRESHOLD_INC) {
-      currentThreshold = t;
+    for (let gt = tMin; gt < tMax; gt += THRESHOLD_INC) {
+      currentThreshold = gt;
       ctx.beginPath();
       ctx.strokeStyle = grd;
-      ctx.lineWidth = (t % thickMod === 0) ? 2.5 : 1.2;
+      ctx.lineWidth = (gt % thickMod === 0) ? 2.5 : 1.2;
       renderAtThreshold();
       ctx.stroke();
     }

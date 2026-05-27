@@ -29,6 +29,10 @@
             <a href="./blog" class="nav-link">blog</a>
             <span class="nav-sep">//</span>
             <a href="#contact" class="nav-link">contact</a>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                <span class="theme-label-dark">☼</span>
+                <span class="theme-label-light">☾</span>
+            </button>
         </nav>
     </header>
 
@@ -55,15 +59,15 @@
                     where I arrange, record and perform original material.
                 </p>
                 <p class="about-text">
-                    "I belive my passion for this field stems from a childhood fascination with how things are built. I
+                    I belive my passion for this field stems from a childhood fascination with how things are built. I
                     wanted to understand what lies behind the abstraction of highly advanced, seamless products. I owe
                     this drive to my father, a software engineer who inspired me to always pursue greatness.
                 </p>
                 <p class="about-text">
-                As engineers, we hold real responsibility over the systems we design, from architecture to tooling.
-                That's why I am committed to honing my craft: writing cleaner, faster, and more maintainable
-                solutions that respect both the user and the machine. I always aim to push boundaries. Moving
-                forward, I aim to complete a master's in AI / ML and keep building things that matter."
+                    As engineers, we hold real responsibility over the systems we design, from architecture to tooling.
+                    That's why I am committed to honing my craft: writing cleaner, faster, and more maintainable
+                    solutions that respect both the user and the machine. I always aim to push boundaries. Moving
+                    forward, I aim to complete a master's in AI / ML and keep building things that matter.
                 </p>
                 <div class="hero-clock">
                     <span>TIME IN BRAGA —</span>
@@ -72,6 +76,17 @@
             </div>
             <div class="hero-col-photo">
                 <img src="./assets/photos/20250320_135006.jpg" alt="Rodrigo Silva" class="hero-photo" />
+                <div class="career-timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <img src="./assets/photos/uminho-logo.png" alt="University of Minho" class="timeline-logo">
+                        </div>
+                        <div class="timeline-content">
+                            <span class="timeline-company">University of Minho</span>
+                            <span class="timeline-desc">Software Engineering BSc</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -177,23 +192,23 @@
                 <div class="contact-directory">
                     <h3 class="contact-group-title">Work</h3>
                     <a href="mailto:rodrigomrsilva06@gmail.com" class="contact-row">
-                        <span class="contact-row-icon">✉️</span>
+                        <span class="contact-row-icon">✉</span>
                         <span class="contact-row-label">Email</span>
                         <span class="contact-row-chevron">›</span>
                     </a>
                     <a href="https://github.com/rrodrickk" class="contact-row" target="_blank" rel="noopener">
-                        <span class="contact-row-icon">💻</span>
+                        <span class="contact-row-icon">⟨/⟩</span>
                         <span class="contact-row-label">GitHub</span>
                         <span class="contact-row-chevron">›</span>
                     </a>
                     <a href="https://www.linkedin.com/in/rodrigomrsilvaa/" class="contact-row" target="_blank"
                         rel="noopener">
-                        <span class="contact-row-icon">💼</span>
+                        <span class="contact-row-icon">in</span>
                         <span class="contact-row-label">LinkedIn</span>
                         <span class="contact-row-chevron">›</span>
                     </a>
                     <a href="./assets/CV/cv.html" class="contact-row">
-                        <span class="contact-row-icon">📄</span>
+                        <span class="contact-row-icon">⎙</span>
                         <span class="contact-row-label">CV</span>
                         <span class="contact-row-chevron">›</span>
                     </a>
@@ -201,18 +216,18 @@
                     <hr class="contact-group-sep">
                     <h3 class="contact-group-title">Social Media</h3>
                     <a href="https://www.instagram.com/rrodrickk/" class="contact-row" target="_blank" rel="noopener">
-                        <span class="contact-row-icon">📷</span>
+                        <span class="contact-row-icon">⬡</span>
                         <span class="contact-row-label">Instagram</span>
                         <span class="contact-row-chevron">›</span>
                     </a>
                     <a href="https://www.tiktok.com/@rrodrickk" class="contact-row" target="_blank" rel="noopener">
-                        <span class="contact-row-icon">🎵</span>
+                        <span class="contact-row-icon">▶</span>
                         <span class="contact-row-label">TikTok</span>
                         <span class="contact-row-chevron">›</span>
                     </a>
                     <a href="https://open.spotify.com/user/eve4hhsu6ykyoseqtmgxicydx" class="contact-row"
                         target="_blank" rel="noopener">
-                        <span class="contact-row-icon">🎧</span>
+                        <span class="contact-row-icon">♫</span>
                         <span class="contact-row-label">Spotify</span>
                         <span class="contact-row-chevron">›</span>
                     </a>
@@ -224,7 +239,7 @@
     </main>
 
     <footer class="site-footer">
-        <p>© 2026 Rodrigo Silva</p>
+        <p>© 2026 rrodrickk</p>
     </footer>
 
 
@@ -421,6 +436,51 @@
             document.fonts.ready.then(function () { ready.fonts = true; check(); });
             // Fallback: remove loader after 4s no matter what
             setTimeout(function () { loader.classList.add('loaded'); }, 4000);
+        })();
+    </script>
+
+    <!-- ── Theme toggle JS ──────────────────────────────────── -->
+    <script>
+        (function () {
+            var body = document.body;
+            var btn = document.getElementById('theme-toggle');
+            var stored = localStorage.getItem('theme');
+            var systemLight = window.matchMedia('(prefers-color-scheme: light)');
+
+            function apply(mode) {
+                if (mode === 'light') {
+                    body.classList.add('light-mode');
+                    document.documentElement.classList.add('light-mode');
+                } else {
+                    body.classList.remove('light-mode');
+                    document.documentElement.classList.remove('light-mode');
+                }
+                window.dispatchEvent(new CustomEvent('theme-change', { detail: { mode: mode } }));
+            }
+
+            // Initial: localStorage > system preference > dark
+            if (stored) {
+                apply(stored);
+            } else if (systemLight.matches) {
+                apply('light');
+            }
+
+            // Toggle button
+            if (btn) {
+                btn.addEventListener('click', function () {
+                    var isLight = body.classList.contains('light-mode');
+                    var next = isLight ? 'dark' : 'light';
+                    apply(next);
+                    localStorage.setItem('theme', next);
+                });
+            }
+
+            // Follow system when no manual override
+            systemLight.addEventListener('change', function (e) {
+                if (!localStorage.getItem('theme')) {
+                    apply(e.matches ? 'light' : 'dark');
+                }
+            });
         })();
     </script>
 </body>
