@@ -1,0 +1,86 @@
+---
+// N9 · Edge-aligned minimal (tuned), wordmark + one utility link hard-left,
+// a single CTA hard-right, vast quiet space between. No inline link row.
+---
+
+<header class="nav">
+  <div class="nav__inner container">
+    <div class="nav__left">
+      <a href="/" class="nav__wordmark">Rodrigo Silva<span class="nav__dot">.</span></a>
+      <a href="/blog" class="nav__utility">Blog</a>
+    </div>
+    <a
+      class="nav__cta"
+      href="/assets/CV/cv.html"
+    >
+      Résumé <span aria-hidden="true">↗</span>
+    </a>
+  </div>
+</header>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-sticky);
+    border-bottom: var(--rule-hairline) solid var(--color-rule-2);
+    background: color-mix(in oklch, var(--color-paper) 82%, transparent);
+    backdrop-filter: blur(6px);
+  }
+
+  .nav__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: var(--space-md);
+    gap: var(--space-lg);
+  }
+
+  .nav__left {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-lg);
+    min-width: 0;
+  }
+
+  .nav__wordmark {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: var(--text-md);
+    letter-spacing: -0.01em;
+    text-decoration: none;
+    color: var(--color-ink);
+    white-space: nowrap;
+  }
+  .nav__dot { color: var(--color-accent); }
+
+  .nav__utility {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--color-muted);
+    white-space: nowrap;
+    transition: color var(--dur-short) var(--ease-out);
+  }
+  .nav__utility:hover { color: var(--color-ink); }
+
+  .nav__cta {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--color-ink);
+    border: var(--rule-hairline) solid var(--color-rule);
+    padding: var(--space-xs) var(--space-md);
+    border-radius: var(--radius-sm);
+    white-space: nowrap;
+    transition: border-color var(--dur-short) var(--ease-out), color var(--dur-short) var(--ease-out);
+  }
+  .nav__cta:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+</style>

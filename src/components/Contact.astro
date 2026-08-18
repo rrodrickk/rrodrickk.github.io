@@ -1,0 +1,83 @@
+---
+const links = [
+  { label: "Email", value: "rodrigomrsilva06@gmail.com", href: "mailto:rodrigomrsilva06@gmail.com" },
+  { label: "GitHub", value: "github.com/rrodrickk", href: "https://github.com/rrodrickk" },
+  { label: "LinkedIn", value: "linkedin.com/in/rodrigomrsilvaa", href: "https://www.linkedin.com/in/rodrigomrsilvaa/" },
+  { label: "Instagram", value: "instagram.com/rrodrickk", href: "https://www.instagram.com/rrodrickk/" },
+  { label: "last.fm", value: "last.fm/user/rrodrickk", href: "https://www.last.fm/user/rrodrickk" },
+  { label: "Résumé", value: "cv.html", href: "/assets/CV/cv.html" },
+];
+---
+
+<section id="contact" class="contact container" data-wayfinder="Contact">
+  <h2 class="contact__heading">
+    I'll answer the emails that fit, but I read them all.
+  </h2>
+
+  <ul class="contact__list">
+    {
+      links.map((l) =>
+        l.href ? (
+          <li>
+            <a class="contact__row" href={l.href} target={l.href.startsWith("http") ? "_blank" : undefined} rel="noopener">
+              <span class="contact__label font-mono-label">{l.label}</span>
+              <span class="contact__value">{l.value}</span>
+              <span class="contact__chevron" aria-hidden="true">↗</span>
+            </a>
+          </li>
+        ) : (
+          <li>
+            <span class="contact__row contact__row--pending">
+              <span class="contact__label font-mono-label">{l.label}</span>
+              <span class="contact__value contact__value--pending">{l.value}</span>
+            </span>
+          </li>
+        )
+      )
+    }
+  </ul>
+</section>
+
+<style>
+  .contact {
+    padding-block: var(--space-3xl) var(--space-4xl);
+    border-top: var(--rule-hairline) solid var(--color-rule-2);
+  }
+
+  .contact__heading {
+    font-size: var(--text-2xl);
+    max-width: 32ch;
+    margin-bottom: var(--space-2xl);
+    overflow-wrap: anywhere;
+  }
+
+  .contact__list { list-style: none; }
+
+  .contact__row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding-block: var(--space-md);
+    border-top: var(--rule-hairline) solid var(--color-rule-2);
+    text-decoration: none;
+    color: var(--color-ink);
+    transition: color var(--dur-short) var(--ease-out);
+  }
+  .contact__list li:last-child .contact__row {
+    border-bottom: var(--rule-hairline) solid var(--color-rule-2);
+  }
+  .contact__row:hover { color: var(--color-accent); }
+
+  .contact__label {
+    color: var(--color-muted);
+    width: 6rem;
+    flex-shrink: 0;
+  }
+
+  .contact__value { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+
+  .contact__chevron { color: var(--color-muted); }
+
+  .contact__row--pending { cursor: default; }
+  .contact__value--pending { color: var(--color-muted); }
+</style>

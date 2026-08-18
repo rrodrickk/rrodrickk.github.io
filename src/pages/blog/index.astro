@@ -1,0 +1,70 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+
+const allPosts = await getCollection("blog");
+const posts = allPosts
+  .map((p) => {
+    const words = p.body.split(/\s+/).filter(Boolean).length;
+    const readingTime = Math.max(1, Math.round(words / 200));
+    return { ...p, readingTime };
+  })
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const ALL_TAGS = ["Music", "Workflows", "Linux/Arch", "AI/ML"] as const;
+
+const dateFmt = new Intl.DateTimeFormat("en-GB", { day: "2-digit", month: "short", year: "numeric" });
+---
+
+<Layout title="Blog - rrodrickk" description="Writing on music, workflows, Linux, and building things under a deadline.">
+  <section class="blog-index container">
+    <h1 class="blog-index__heading">Blog.</h1>
+
+    <div class="blog-index__filters" role="group" aria-label="Filter by topic">
+      <button type="button" class="blog-index__filter" data-tag="all" data-active="true">All</button>
+      {
+        ALL_TAGS.map((t) => (
+          <button type="button" class="blog-index__filter" data-tag={t}>
+            {t}
+          </button>
+        ))
+      }
+    </div>
+
+    <ul class="blog-index__list">
+      {
+        posts.map((post) => (
+          <li data-tags={post.data.tags.join(",")}>
+            <a class="blog-index__row" href={`/blog/${post.slug}/`}>
+              <div class="blog-index__title-col">
+                <h2 class="blog-index__title">{post.data.title}</h2>
+                <p class="blog-index__excerpt">{post.data.description}</p>
+              </div>
+              <span class="blog-index__date">{dateFmt.format(post.data.date)}</span>
+              <span class="blog-index__reading-time">{post.readingTime} min read</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</Layout>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>(".blog-index__filter");
+  const items = document.querySelectorAll<HTMLLIElement>(".blog-index__list > li");
+
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      buttons.forEach((b) => b.removeAttribute("data-active"));
+      btn.setAttribute("data-active", "true");
+      const tag = btn.dataset.tag;
+
+      items.forEach((li) => {
+        const tags = li.dataset.tags?.split(",") ?? [];
+        const show = tag === "all" || tags.includes(tag ?? "");
+        li.style.display = show ? "" : "none";
+      });
+    });
+  });
+</script>

@@ -1,0 +1,200 @@
+---
+// Marquee-influenced fold: left-biased H1, then a widescreen instrument-bezel
+// viewport holding a background video, autoplaying muted with a corner
+// toggle to unmute.
+const videoSrc: string | null = "/assets/video/hero.mp4";
+const posterSrc: string | null = null; // e.g. "/videos/hero-poster.jpg"
+---
+
+<section id="top" class="hero container" data-wayfinder="Top">
+  <div class="hero__head">
+    <h1 class="hero__name">Rodrigo Silva</h1>
+    <p class="hero__byline font-mono-label">/rrodrickk/ software engineering, Braga PT</p>
+  </div>
+
+  <div class="hero__bezel bezel">
+    <span class="bezel__corner bezel__corner--tl"></span>
+    <span class="bezel__corner bezel__corner--tr"></span>
+    <span class="bezel__corner bezel__corner--bl"></span>
+    <span class="bezel__corner bezel__corner--br"></span>
+
+    {
+      videoSrc && (
+        <video
+          id="hero-video"
+          class="hero__video"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="auto"
+          fetchpriority="high"
+          poster={posterSrc ?? undefined}
+          aria-hidden="true"
+        >
+          <source src={videoSrc} type="video/mp4" />
+        </video>
+      )
+    }
+
+    {
+      videoSrc && (
+        <button
+          id="hero-mute-toggle"
+          class="hero__mute"
+          type="button"
+          aria-pressed="true"
+          aria-label="Unmute video"
+        >
+          <svg class="hero__mute-icon hero__mute-icon--off" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 9v6h4l5 5V4L8 9H4z" fill="currentColor" />
+            <path d="M16.5 8.5l5 7M21.5 8.5l-5 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+          </svg>
+          <svg class="hero__mute-icon hero__mute-icon--on" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 9v6h4l5 5V4L8 9H4z" fill="currentColor" />
+            <path d="M16.2 8.8a5 5 0 0 1 0 6.4M18.6 6.4a8.5 8.5 0 0 1 0 11.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none" />
+          </svg>
+        </button>
+      )
+    }
+
+    <div class="hero__bezel-row hero__bezel-row--top">
+      <span class="font-mono-label"><span id="braga-time">-:-:-</span> · BRAGA</span>
+    </div>
+    <div class="hero__bezel-row hero__bezel-row--bottom" aria-hidden="true">
+    </div>
+  </div>
+</section>
+
+<script>
+  const el = document.getElementById("braga-time");
+  if (el) {
+    const fmt = new Intl.DateTimeFormat([], {
+      timeZone: "Europe/Lisbon",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false,
+    });
+    const tick = () => { el.textContent = fmt.format(new Date()); };
+    tick();
+    setInterval(tick, 1000);
+  }
+
+  const video = document.getElementById("hero-video") as HTMLVideoElement | null;
+  const muteToggle = document.getElementById("hero-mute-toggle");
+  if (video && muteToggle) {
+    muteToggle.addEventListener("click", () => {
+      video.muted = !video.muted;
+      muteToggle.setAttribute("aria-pressed", String(video.muted));
+      muteToggle.setAttribute("aria-label", video.muted ? "Unmute video" : "Mute video");
+    });
+  }
+</script>
+
+<style>
+  .hero {
+    padding-block: clamp(var(--space-2xl), 8vw, var(--space-4xl)) var(--space-2xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+  }
+
+  .hero__head {
+    max-width: 52rem;
+  }
+
+  .hero__name {
+    font-size: var(--text-display);
+    overflow-wrap: anywhere;
+  }
+
+  .hero__byline {
+    margin-top: var(--space-sm);
+    color: var(--color-muted);
+  }
+
+  .hero__lede {
+    margin-top: var(--space-lg);
+    font-size: var(--text-md);
+    color: var(--color-ink-2);
+  }
+
+  .hero__bezel {
+    position: relative;
+    aspect-ratio: 21 / 9;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: var(--space-md) var(--space-lg);
+    background: color-mix(in oklch, var(--color-paper-2) 55%, transparent);
+  }
+
+  .hero__video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero__mute {
+    position: absolute;
+    right: var(--space-md);
+    bottom: var(--space-md);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0;
+    border: 1px solid color-mix(in oklch, var(--color-ink) 25%, transparent);
+    border-radius: var(--radius-sm);
+    background: color-mix(in oklch, var(--color-paper) 65%, transparent);
+    color: var(--color-ink);
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+
+  .hero__mute:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  .hero__mute-icon {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+
+  .hero__mute-icon--on { display: none; }
+
+  .hero__mute[aria-pressed="false"] .hero__mute-icon--off { display: none; }
+  .hero__mute[aria-pressed="false"] .hero__mute-icon--on { display: block; }
+
+  .hero__bezel-row {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    color: var(--color-muted);
+  }
+
+  .hero__scroll-hint { color: var(--color-accent); }
+
+  /* Keep the readout text clear of the mute button parked in the same corner. */
+  .hero__bezel:has(.hero__mute) .hero__bezel-row--bottom {
+    padding-right: calc(2.25rem + var(--space-sm));
+  }
+
+  /* Once a real video lands in the frame, give the readout rows a legible backdrop. */
+  .hero__bezel:has(.hero__video) .hero__bezel-row > span {
+    background: color-mix(in oklch, var(--color-paper) 65%, transparent);
+    padding: var(--space-3xs) var(--space-xs);
+    border-radius: var(--radius-sm);
+  }
+
+  @media (max-width: 40rem) {
+    .hero__bezel { aspect-ratio: 4 / 5; }
+  }
+</style>

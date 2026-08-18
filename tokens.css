@@ -1,0 +1,74 @@
+/* Hallmark · route: custom (bespoke) · structure: hero(instrument-bezel) -> bio(display statement) -> journey(timeline) -> gallery(sticky-scroll) -> wayfinder(fixed status bar)
+ * idea: "an instrument panel for a person, not a product, Rams/Braun bezel language applied to a portfolio"
+ * paper: oklch(9% 0.014 60) · accent: oklch(64% 0.17 58) · display: Bitcount Single (h1/h2 only) · body: IBM Plex Sans
+ * axes: dark / dot-matrix / warm · gates: all-pass · studied: no
+ * genre: editorial · nav: N9 (edge-aligned minimal, tuned) · footer: bespoke (persistent wayfinder)
+ * context: explicit brief · continuity: preserved existing site's amber/oklch anchor (hue 58-60) and its Bitcount Single font (about.html L11) rather than inventing new ones
+ */
+
+:root {
+  /* ---- Colour - OKLCH, warm amber/orange anchor (hue 58), dark paper ---- */
+  --color-paper:      oklch(9%  0.014 60);
+  --color-paper-2:    oklch(13% 0.016 60);
+  --color-paper-3:    oklch(17% 0.018 60);
+  --color-ink:        oklch(94% 0.010 60);
+  --color-ink-2:      oklch(78% 0.010 60);
+  --color-rule:       oklch(30% 0.014 60);
+  --color-rule-2:     oklch(22% 0.014 60);
+  --color-muted:      oklch(50% 0.012 60);
+  --color-neutral:    oklch(40% 0.012 60);
+  --color-accent:     oklch(64% 0.17  58);
+  --color-accent-ink: oklch(12% 0.020 58);
+  --color-focus:      oklch(70% 0.20  58);
+
+  /* ---- Type - 2+1: Bitcount Single (dot-matrix, h1/h2 only) / IBM Plex Sans body (+ h3/h4) / IBM Plex Mono outlier ---- */
+  --font-display: "Bitcount Single", ui-monospace, monospace;
+  --font-body:    "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono:    "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  --text-xs:        0.64rem;
+  --text-sm:         0.8rem;
+  --text-base:         1rem;
+  --text-md:        1.25rem;
+  --text-lg:      1.5625rem;
+  --text-xl:      1.9531rem;
+  --text-2xl:     2.4414rem;
+  --text-3xl:     3.0518rem;
+  --text-4xl:     3.8147rem;
+  --text-display:   clamp(2.75rem, 5vw + 1rem, 5.25rem);
+  --text-display-s: clamp(2.25rem, 3.5vw + 1rem, 3.8rem);
+
+  /* ---- Space - 4pt scale ---- */
+  --space-3xs: 0.125rem;
+  --space-2xs:  0.25rem;
+  --space-xs:    0.5rem;
+  --space-sm:   0.75rem;
+  --space-md:      1rem;
+  --space-lg:    1.5rem;
+  --space-xl:    2.5rem;
+  --space-2xl:     4rem;
+  --space-3xl:     6rem;
+  --space-4xl:     9rem;
+
+  /* ---- Motion ---- */
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in:     cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-micro: 120ms;
+  --dur-short: 220ms;
+  --dur-long:  420ms;
+
+  /* ---- Radius / rule weight ---- */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --rule-hairline: 1px;
+
+  /* ---- Z-scale ---- */
+  --z-base:     1;
+  --z-raised:   10;
+  --z-dropdown: 100;
+  --z-sticky:   200;
+  --z-modal:    400;
+  --z-toast:    500;
+  --z-tooltip:  600;
+}

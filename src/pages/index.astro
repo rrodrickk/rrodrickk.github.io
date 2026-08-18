@@ -1,0 +1,27 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Hero from "../components/Hero.astro";
+import Bio from "../components/Bio.astro";
+import Journey from "../components/Journey.astro";
+import ProjectGallery from "../components/ProjectGallery.tsx";
+import MediaReel from "../components/MediaReel.astro";
+import Contact from "../components/Contact.astro";
+import Wayfinder from "../components/Wayfinder.tsx";
+---
+
+<Layout
+  title="Rodrigo Silva - rrodrickk"
+  description="Software engineering student at the University of Minho. Portfolio, projects, and journey so far."
+>
+  <Hero />
+  <Bio />
+  <Journey />
+  <ProjectGallery client:visible />
+  <MediaReel />
+  <Contact />
+  <Wayfinder client:load slot="footer-chrome" />
+</Layout>
+
+<style is:global>
+  main { padding-bottom: 4rem; }
+</style>

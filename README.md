@@ -1,6 +1,6 @@
 # Rodrigo Silva – Portfolio, Blog & Projects
 
-Welcome to my personal site repository. This space is where I ship code, riffs, and reflections—merging software engineering with music, systems thinking, and mindset.
+Welcome to my personal site repository. This space is where I ship code, riffs, and reflections, merging software engineering with music, systems thinking, and mindset.
 
 ![Favicon Preview](./favicon.png)
 

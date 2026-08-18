@@ -1,0 +1,192 @@
+---
+// Career & education only, strictly 2 entries. Personal software projects
+// (the hackathon win, the band site, etc.) live in the Work gallery instead.
+const entries = [
+  {
+    range: "2024 - Present",
+    org: "University of Minho",
+    role: "BSc Informatics Engineering (Software Engineering)",
+    location: "Braga, Portugal",
+    logo: "/assets/photos/uminho-logo.png",
+    logoAlt: "University of Minho crest",
+    logoW: 256,
+    logoH: 256,
+    points: [
+      "Core modules: Algorithms & Data Structures, Functional Programming (Haskell), Imperative Programming (C), Object-Oriented Programming (Java), Logic, Operational Investigation, Computer Networks, Operational Systems",
+      "Targeting a future master's in Artificial Intelligence & Machine Learning.",
+    ],
+    tags: [],
+  },
+  {
+    range: "Summer 2026 · 2 months",
+    org: "ProperInn (Proper Innovation)",
+    role: "Full-Stack Engineering Intern",
+    location: "-",
+    logo: "/assets/photos/properinn-logo.png",
+    logoAlt: "ProperInn (Proper Innovation) logo",
+    logoW: 1576,
+    logoH: 704,
+    points: [
+      "Worked on the full-stack architecture of the suiteinn_v2 logistics platform, built on Clean/Onion Architecture principles using the Bun runtime, React 19, the TanStack ecosystem, Zod v4, and Drizzle ORM.",
+      "Engineered a virtualized sheet-style grid for tariff management.",
+      "Developed an automated AI entity sync pipeline.",
+      "Built a dynamic 3-leg quote simulation engine with custom surcharge registries.",
+      "Diagnosed and resolved critical system performance bugs.",
+      "Built interactive dashboards with custom Leaflet heatmaps and Recharts radar graphs.",
+      "Maintained multi-stage Docker CI/CD pipelines.",
+    ],
+    tags: ["React 19", "Bun", "TanStack", "Zod v4", "Drizzle ORM", "PostgreSQL", "Docker", "Leaflet"],
+  },
+];
+---
+
+<section id="journey" class="journey container" data-wayfinder="Journey">
+  <div class="journey__head">
+    <h2 class="journey__heading">Measurable at Every Step.</h2>
+  </div>
+
+  <ol class="journey__list">
+    {
+      entries.map((e) => (
+        <li class="journey__item">
+          <span class="journey__range font-mono-label">{e.range}</span>
+          <div class="journey__body">
+            <div class="journey__title-row">
+              {e.logo ? (
+                <img class="journey__logo" src={e.logo} alt={e.logoAlt} width={e.logoW} height={e.logoH} loading="lazy" />
+              ) : (
+                <span class="journey__logo journey__logo--fallback font-mono-label" aria-hidden="true">
+                  {e.org.slice(0, 2).toUpperCase()}
+                </span>
+              )}
+              <h3 class="journey__org">{e.org}</h3>
+            </div>
+            <p class="journey__role">
+              {e.role}
+              {e.location !== "-" && <span class="journey__location"> · {e.location}</span>}
+            </p>
+            {e.points.length > 0 && (
+              <ul class="journey__points">
+                {e.points.map((p) => (
+                  <li>{p}</li>
+                ))}
+              </ul>
+            )}
+            {e.tags.length > 0 && (
+              <ul class="journey__tags">
+                {e.tags.map((t) => (
+                  <li class="journey__tag font-mono-label">{t}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+</section>
+
+<style>
+  .journey {
+    padding-block: var(--space-3xl);
+    border-top: var(--rule-hairline) solid var(--color-rule-2);
+  }
+
+  .journey__head { max-width: 40rem; margin-bottom: var(--space-2xl); }
+
+  .journey__heading {
+    font-size: var(--text-3xl);
+    overflow-wrap: anywhere;
+  }
+
+  .journey__list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .journey__item {
+    display: grid;
+    grid-template-columns: 8rem 1fr;
+    gap: var(--space-lg);
+    padding-block: var(--space-xl);
+    border-top: var(--rule-hairline) solid var(--color-rule-2);
+  }
+  .journey__item:last-child { border-bottom: var(--rule-hairline) solid var(--color-rule-2); }
+
+  .journey__range {
+    color: var(--color-muted);
+    padding-top: var(--space-3xs);
+  }
+
+  .journey__title-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+
+  /* Height-locked, width-flexible: logos arrive at very different aspect
+     ratios (a square crest vs. a wide wordmark) and both need to read at
+     their natural proportions rather than being squeezed into a square. */
+  .journey__logo {
+    height: 2.25rem;
+    width: auto;
+    max-width: 6rem;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  .journey__logo--fallback {
+    height: 2.25rem;
+    width: 2.25rem;
+    max-width: 2.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-paper-2);
+    border: var(--rule-hairline) solid var(--color-rule);
+    color: var(--color-muted);
+    border-radius: var(--radius-sm);
+  }
+
+  .journey__org {
+    font-size: var(--text-lg);
+  }
+
+  .journey__role {
+    margin-top: var(--space-2xs);
+    color: var(--color-ink-2);
+  }
+
+  .journey__location { color: var(--color-muted); }
+
+  .journey__points {
+    margin-top: var(--space-md);
+    padding-left: var(--space-lg);
+    color: var(--color-ink-2);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    max-width: 68ch;
+  }
+  .journey__points li { list-style: disc; }
+
+  .journey__tags {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin-top: var(--space-md);
+  }
+
+  .journey__tag {
+    border: var(--rule-hairline) solid var(--color-rule);
+    color: var(--color-muted);
+    padding: var(--space-3xs) var(--space-sm);
+    border-radius: var(--radius-sm);
+  }
+
+  @media (max-width: 40rem) {
+    .journey__item { grid-template-columns: 1fr; gap: var(--space-xs); }
+  }
+</style>

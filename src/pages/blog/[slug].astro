@@ -1,0 +1,53 @@
+---
+import { getCollection } from "astro:content";
+import ArticleLayout from "../../layouts/ArticleLayout.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+const words = post.body.split(/\s+/).filter(Boolean).length;
+const readingTime = Math.max(1, Math.round(words / 200));
+const dateFmt = new Intl.DateTimeFormat("en-GB", { day: "2-digit", month: "short", year: "numeric" });
+---
+
+<ArticleLayout title={post.data.title} description={post.data.description}>
+  <article class="article container">
+    <div class="article__meta font-mono-label">
+      <span>{dateFmt.format(post.data.date)}</span>
+      <span>{readingTime} min read</span>
+      <span>{post.data.tags.join(" · ")}</span>
+    </div>
+    <h1 class="article__title">{post.data.title}</h1>
+    <div class="article__body">
+      <Content />
+    </div>
+  </article>
+</ArticleLayout>
+
+<script>
+  document.querySelectorAll<HTMLPreElement>(".article__body pre.astro-code").forEach((pre) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "code-copy";
+    btn.textContent = "Copy";
+    btn.addEventListener("click", async () => {
+      const text = pre.querySelector("code")?.textContent ?? "";
+      await navigator.clipboard.writeText(text);
+      btn.dataset.state = "copied";
+      btn.textContent = "Copied";
+      setTimeout(() => {
+        delete btn.dataset.state;
+        btn.textContent = "Copy";
+      }, 2500);
+    });
+    pre.appendChild(btn);
+  });
+</script>
